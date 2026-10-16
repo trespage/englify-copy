@@ -2,47 +2,53 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    protected $table = 'users';
+    protected $primaryKey = 'id_user';
+
     protected $fillable = [
-        'name',
+        'username',
+        'nama',
         'email',
         'password',
+        'id_role',
+        'id_kategori',
+        'status',
+        'must_change_password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $casts = [
+        'must_change_password' => 'boolean',
+    ];
+
+    public function role()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
+    }
+
+    public function hasilQuiz()
+    {
+        return $this->hasMany(HasilQuiz::class, 'id_user');
+    }
+
+    public function progressMateri()
+    {
+        return $this->hasMany(ProgressMateri::class, 'id_user');
+    }
+
+    public function materiDibuat()
+    {
+        return $this->hasMany(Materi::class, 'id_admin');
     }
 }
