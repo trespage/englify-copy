@@ -4,39 +4,50 @@
 
 @section('content')
 <div class="space-y-4 sm:space-y-6">
+    @if($errors->any())
+    <div class="bg-rose-50 border border-rose-200 text-rose-800 text-sm px-4 py-3 rounded-2xl shadow-xs">
+        <p class="font-bold mb-1">Gagal menyimpan akun siswa:</p>
+        <ul class="list-disc list-inside space-y-0.5">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <!-- Header Section -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-center sm:text-left">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center justify-center sm:justify-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                 </div>
                 Akun Siswa
             </h1>
-            <p class="text-slate-500 mt-1 text-sm">Buat dan kelola akun pengguna Englify.</p>
+            <p class="text-slate-500 mt-1 text-sm">Buat dan kelola akun pengguna siswa Englify.</p>
         </div>
-        <button onclick="openModal('add')" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95 w-full sm:w-auto">
+        <button onclick="openModal('add')" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-xl shadow-lg shadow-sky-600/25 transition-all active:scale-95 w-full sm:w-auto">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
-            Tambah Akun
+            Tambah Akun Siswa
         </button>
     </div>
 
     <!-- Stats Card -->
-    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-5 sm:p-6 border border-blue-100 relative overflow-hidden">
+    <div class="bg-gradient-to-r from-sky-100/70 via-blue-50/50 to-white rounded-2xl p-5 sm:p-6 border border-sky-200/70 shadow-sm relative overflow-hidden">
         <div class="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 opacity-10">
-            <svg viewBox="0 0 200 200" class="w-full h-full text-blue-600" fill="currentColor">
+            <svg viewBox="0 0 200 200" class="w-full h-full text-sky-600" fill="currentColor">
                 <circle cx="100" cy="60" r="40"/>
                 <circle cx="60" cy="140" r="35"/>
                 <circle cx="140" cy="140" r="35"/>
             </svg>
         </div>
         <div class="relative flex flex-col sm:flex-row items-center gap-4">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-md flex items-center justify-center shrink-0">
-                <svg class="w-7 h-7 sm:w-8 sm:h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-sm border border-slate-200/60 flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7 sm:w-8 sm:h-8 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                 </svg>
             </div>
@@ -48,7 +59,7 @@
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
                         </svg>
-                        +12%
+                        {{ $studentsGrowth ?? '+ 0%' }}
                     </span>
                 </div>
             </div>
@@ -59,16 +70,16 @@
     </div>
 
     <!-- Filters Section -->
-    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/70">
         <div class="flex flex-col sm:flex-row gap-3">
             <div class="relative flex-1">
                 <svg class="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-                <input type="text" id="searchInput" placeholder="Cari nama atau email..."
-                       class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition">
+                <input type="text" id="searchInput" value="{{ $q ?? '' }}" placeholder="Cari nama atau email..."
+                       class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition">
             </div>
-            <select id="statusFilter" class="w-full sm:w-auto px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer">
+            <select id="statusFilter" class="w-full sm:w-auto px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 cursor-pointer">
                 <option value="">Semua Status</option>
                 <option value="aktif">Aktif</option>
                 <option value="nonaktif">Nonaktif</option>
@@ -79,10 +90,11 @@
     <!-- MOBILE CARD VIEW (md:hidden) -->
     <div class="md:hidden space-y-3">
         @forelse($students ?? [] as $student)
-        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 active:bg-slate-50 transition">
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/70 active:bg-slate-50 transition"
+             data-search="{{ mb_strtolower(trim(($student->nama ?? '') . ' ' . ($student->email ?? ''))) }}" data-status="{{ $student->status ?? 'aktif' }}">
             <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
                         {{ substr($student->nama ?? $student->name ?? 'U', 0, 1) }}
                     </div>
                     <div>
@@ -100,7 +112,7 @@
                     </span>
                 @endif
             </div>
-            <div class="space-y-2 text-sm text-slate-600 mb-4 bg-slate-50 p-3 rounded-xl">
+            <div class="space-y-2 text-sm text-slate-600 mb-4 bg-slate-50/70 p-3 rounded-xl border border-slate-100">
                 <div class="flex justify-between items-center">
                     <span class="text-slate-400 text-xs font-semibold uppercase tracking-wide">Email</span>
                     <span class="font-medium text-right text-xs">{{ $student->email }}</span>
@@ -111,7 +123,7 @@
                 </div>
             </div>
             <div class="flex gap-2 pt-2 border-t border-slate-100">
-                <button onclick="editStudent(@js($student->id_user), @js($student->nama), @js($student->email))" class="flex-1 py-2.5 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold flex items-center justify-center gap-2 active:bg-blue-100 transition">
+                <button onclick="editStudent(@js($student->id_user), @js($student->nama), @js($student->email), @js($student->status ?? 'aktif'))" class="flex-1 py-2.5 bg-sky-50 text-sky-600 rounded-xl text-xs font-bold flex items-center justify-center gap-2 active:bg-sky-100 transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                     Edit
                 </button>
@@ -122,22 +134,22 @@
             </div>
         </div>
         @empty
-        <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center">
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/70 text-center">
             <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3">
                 <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                 </svg>
             </div>
-            <p class="text-slate-500 font-medium text-sm">Belum ada data siswa</p>
+            <p class="text-slate-500 font-medium text-sm">{{ ($q ?? '') !== '' ? 'Tidak ada data siswa yang cocok dengan "' . $q . '"' : 'Belum ada data siswa' }}</p>
         </div>
         @endforelse
     </div>
 
     <!-- DESKTOP TABLE VIEW (hidden md:block) -->
-    <div class="hidden md:block bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="hidden md:block bg-white rounded-2xl shadow-sm border border-slate-200/70 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
-                <thead class="bg-slate-50 border-b border-slate-200">
+                <thead class="bg-slate-50/60 border-b border-slate-200/60">
                     <tr>
                         <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">No</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Nama</th>
@@ -149,11 +161,12 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     @forelse($students ?? [] as $student)
-                    <tr class="hover:bg-slate-50 transition group">
+                    <tr class="hover:bg-sky-50/40 transition group"
+                        data-search="{{ mb_strtolower(trim(($student->nama ?? '') . ' ' . ($student->email ?? ''))) }}" data-status="{{ $student->status ?? 'aktif' }}">
                         <td class="px-6 py-4 text-sm font-semibold text-slate-600">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
                                     {{ substr($student->nama ?? $student->name ?? 'U', 0, 1) }}
                                 </div>
                                 <span class="font-semibold text-slate-700">{{ $student->nama ?? $student->name }}</span>
@@ -176,7 +189,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
-                                <button onclick="editStudent(@js($student->id_user), @js($student->nama), @js($student->email))" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition" title="Edit">
+                                <button onclick="editStudent(@js($student->id_user), @js($student->nama), @js($student->email), @js($student->status ?? 'aktif'))" class="p-2 rounded-lg bg-sky-50 text-sky-600 hover:bg-sky-100 transition" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
@@ -198,7 +211,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                                     </svg>
                                 </div>
-                                <p class="text-slate-500 font-medium">Belum ada data siswa</p>
+                                <p class="text-slate-500 font-medium">{{ ($q ?? '') !== '' ? 'Tidak ada data siswa yang cocok dengan "' . $q . '"' : 'Belum ada data siswa' }}</p>
                             </div>
                         </td>
                     </tr>
@@ -218,12 +231,17 @@
         </div>
         @endif
     </div>
+
+    <!-- Pesan saat pencarian/filter live tidak menemukan data -->
+    <div id="listFilterEmpty" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-slate-200/70 text-center text-sm font-medium text-slate-500">
+        Tidak ada data yang cocok dengan pencarian / filter.
+    </div>
 </div>
 
 <!-- Modal Tambah/Edit Siswa -->
 <div id="studentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto">
-        <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto border border-slate-100">
+        <div class="p-5 sm:p-6 border-b border-slate-200/60 flex items-center justify-between sticky top-0 bg-white z-10 rounded-t-3xl">
             <h3 id="modalTitle" class="text-lg sm:text-xl font-bold text-slate-800">Tambah Akun Siswa</h3>
             <button onclick="closeModal()" class="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -238,24 +256,34 @@
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
-                <input type="text" id="inputNama" name="nama" required
-                       class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
+                <input type="text" id="inputNama" name="nama" value="{{ old('nama') }}" required
+                       class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition"
                        placeholder="Masukkan nama lengkap">
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
-                <input type="email" id="inputEmail" name="email" required
-                       class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
+                <input type="email" id="inputEmail" name="email" value="{{ old('email') }}" required
+                       class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition"
                        placeholder="nama@email.com">
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-2">Password</label>
-                <input type="password" id="inputPassword" name="password"
-                       class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
-                       placeholder="••••••••">
-                <p class="text-xs text-slate-400 mt-1">Kosongkan jika tidak ingin mengubah password</p>
+                <div class="relative">
+                    <input type="password" id="inputPassword" name="password" minlength="6"
+                           class="w-full px-4 py-2.5 pr-11 bg-slate-50 border border-slate-200/80 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition"
+                           placeholder="••••••••">
+                </div>
+                <p class="text-xs text-slate-400 mt-1" id="passwordHint">Opsional saat tambah akun (default: password123, min. 6 karakter). Kosongkan saat edit jika tidak ingin mengubah.</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Status Akun</label>
+                <select id="inputStatus" name="status" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition">
+                    <option value="aktif" {{ old('status', 'aktif') === 'aktif' ? 'selected' : '' }}>Aktif</option>
+                    <option value="nonaktif" {{ old('status') === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                </select>
             </div>
 
             <div class="pt-4 flex gap-3 sticky bottom-0 bg-white pb-1">
@@ -264,7 +292,7 @@
                     Batal
                 </button>
                 <button type="submit"
-                        class="flex-1 px-4 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition active:bg-blue-800">
+                        class="flex-1 px-4 py-3 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 shadow-lg shadow-sky-600/30 transition active:bg-sky-800">
                     Simpan
                 </button>
             </div>
@@ -307,6 +335,7 @@ function openModal(type = 'add', student = null) {
     const modal = document.getElementById('studentModal');
     const title = document.getElementById('modalTitle');
     const form = document.getElementById('studentForm');
+    const passHint = document.getElementById('passwordHint');
 
     if (type === 'edit' && student) {
         title.textContent = 'Edit Akun Siswa';
@@ -314,14 +343,20 @@ function openModal(type = 'add', student = null) {
         document.getElementById('studentMethod').disabled = false;
         document.getElementById('inputNama').value = student.nama;
         document.getElementById('inputEmail').value = student.email;
+        document.getElementById('inputStatus').value = student.status || 'aktif';
         document.getElementById('inputPassword').value = '';
         document.getElementById('inputPassword').required = false;
+        if (passHint) passHint.textContent = 'Kosongkan jika tidak ingin mengubah password.';
     } else {
         title.textContent = 'Tambah Akun Siswa';
         form.reset();
         form.action = @js(route('superadmin.siswa.store'));
         document.getElementById('studentMethod').disabled = true;
-        document.getElementById('inputPassword').required = true;
+        document.getElementById('inputNama').value = @js(old('nama') ?? '');
+        document.getElementById('inputEmail').value = @js(old('email') ?? '');
+        document.getElementById('inputStatus').value = @js(old('status', 'aktif'));
+        document.getElementById('inputPassword').required = false;
+        if (passHint) passHint.textContent = 'Opsional saat tambah akun (default: password123, min. 6 karakter).';
     }
 
     modal.classList.remove('hidden');
@@ -335,8 +370,8 @@ function closeModal() {
     document.getElementById('studentForm').reset();
 }
 
-function editStudent(id, nama, email) {
-    openModal('edit', { id_user: id, nama: nama, email: email });
+function editStudent(id, nama, email, status = 'aktif') {
+    openModal('edit', { id_user: id, nama: nama, email: email, status: status });
 }
 
 function deleteStudent(id) {
@@ -353,13 +388,35 @@ function closeDeleteModal() {
     modal.classList.remove('flex');
 }
 
-// Search and Filter
-document.getElementById('searchInput').addEventListener('input', function(e) {
-    console.log('Searching for:', e.target.value);
-});
+// Search and Filter (live, client-side — dipakai juga oleh pencarian global di header)
+function applyListFilters() {
+    const input = document.getElementById('searchInput');
+    const statusSelect = document.getElementById('statusFilter');
+    const q = (input && input.value || '').trim().toLowerCase();
+    const status = statusSelect ? statusSelect.value : '';
+    let visible = 0;
 
-document.getElementById('statusFilter').addEventListener('change', function(e) {
-    console.log('Filtering by status:', e.target.value);
+    document.querySelectorAll('[data-search]').forEach(function (el) {
+        const matchQuery = !q || (el.dataset.search || '').indexOf(q) !== -1;
+        const matchStatus = !status || (el.dataset.status || '') === status;
+        const show = matchQuery && matchStatus;
+        el.classList.toggle('hidden', !show);
+        if (show) visible++;
+    });
+
+    const empty = document.getElementById('listFilterEmpty');
+    const total = document.querySelectorAll('[data-search]').length;
+    // Hanya tampilkan kalau memang ada baris yang tersaring habis (bukan data kosong dari server)
+    if (empty) empty.classList.toggle('hidden', !(visible === 0 && total > 0));
+}
+
+document.getElementById('searchInput').addEventListener('input', applyListFilters);
+document.getElementById('statusFilter').addEventListener('change', applyListFilters);
+
+@if($errors->any())
+document.addEventListener('DOMContentLoaded', function() {
+    openModal('add');
 });
+@endif
 </script>
 @endpush

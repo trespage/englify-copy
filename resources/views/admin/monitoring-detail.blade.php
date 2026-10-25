@@ -1,191 +1,189 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Progress {{ $siswa->nama }} - Englify</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { display: ['Space Grotesk', 'sans-serif'], body: ['Inter', 'sans-serif'] },
-                    colors: {
-                        navy: { 50: '#f4f6f9', 100: '#e8ecf2', 200: '#d1d9e6', 500: '#3d5a80', 700: '#1e3a5f', 800: '#182B4B', 900: '#0f1c35' },
-                        sky: { 50: '#f0f9fc', 100: '#D6E8EE', 200: '#97CADB', 300: '#018ABE' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
-        .font-display { font-family: 'Space Grotesk', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    </style>
-</head>
-<body class="antialiased">
+@extends('layouts.admin')
 
-    <div class="flex min-h-screen">
-        <!-- Desktop Sidebar -->
-        <aside class="hidden lg:flex fixed left-0 top-0 h-full w-72 bg-navy-900 text-white flex-col z-40">
-            <div class="p-6 border-b border-white/5">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-                        <svg class="w-5 h-5 text-navy-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <div>
-                        <span class="font-display font-bold text-xl block">englify</span>
-                        <span class="text-[10px] text-sky-300 font-bold uppercase">Admin Divisi</span>
-                    </div>
-                </div>
-            </div>
-            <nav class="flex-1 p-4 space-y-1">
-                <p class="px-4 py-2 text-[10px] font-bold text-white/30 uppercase">Menu Utama</p>
-                <a href="/admin/dashboard" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Dashboard</a>
-                <a href="/admin/kategori" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Kategori</a>
-                <a href="/admin/materi" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Materi</a>
-                <a href="/admin/quiz" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Quiz</a>
-                <a href="/admin/monitoring" class="flex items-center gap-3 py-3 px-4 bg-white/10 text-white rounded-xl font-semibold text-sm border border-white/10 shadow-lg relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-sky-300"></div>
-                    Monitoring Siswa
-                </a>
-            </nav>
-        </aside>
+@section('title', 'Detail Monitoring Siswa')
 
-        <!-- Mobile Bottom Navigation -->
-        <nav class="lg:hidden fixed bottom-0 left-0 right-0 glass border-t border-slate-200 z-50 flex justify-around py-2 px-1 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
-            <a href="/admin/dashboard" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg></div>
-                <span class="text-[10px] font-medium">Home</span>
-            </a>
-            <a href="/admin/kategori" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg></div>
-                <span class="text-[10px] font-medium">Kategori</span>
-            </a>
-            <a href="/admin/materi" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg></div>
-                <span class="text-[10px] font-medium">Materi</span>
-            </a>
-            <a href="/admin/quiz" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg></div>
-                <span class="text-[10px] font-medium">Quiz</span>
-            </a>
-            <a href="/admin/monitoring" class="flex flex-col items-center gap-1 p-2 text-navy-800">
-                <div class="w-10 h-10 bg-navy-50 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></div>
-                <span class="text-[10px] font-bold">Monitor</span>
-            </a>
-        </nav>
+@section('content')
+<div class="space-y-6">
 
-        <!-- Main Content -->
-        <main class="flex-1 lg:ml-72 min-h-screen pb-24 lg:pb-8 bg-gradient-to-br from-sky-50/30 via-white to-navy-50/30">
-            <header class="sticky top-0 z-30 glass border-b border-slate-200/60 px-4 lg:px-8 py-4 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('admin.monitoring') }}" class="p-2 hover:bg-sky-50 rounded-lg transition">
-                        <svg class="w-5 h-5 text-navy-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    </a>
-                    <div>
-                        <h1 class="font-display font-bold text-xl lg:text-2xl text-navy-900">Detail Progress</h1>
-                        <p class="text-xs text-slate-500">{{ $siswa->nama }}</p>
-                    </div>
-                </div>
-            </header>
-
-            <div class="p-4 lg:p-8 max-w-7xl mx-auto">
-                <!-- Profile Card -->
-                <div class="bg-white rounded-2xl lg:rounded-3xl p-6 border border-slate-100 shadow-sm mb-6">
-                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
-                        <div class="w-20 h-20 bg-gradient-to-br from-sky-200 to-sky-300 rounded-2xl flex items-center justify-center text-navy-900 font-bold text-3xl shadow-lg flex-shrink-0">
-                            {{ strtoupper(substr($siswa->nama, 0, 1)) }}
-                        </div>
-                        <div class="flex-1">
-                            <h2 class="font-display font-bold text-2xl text-navy-900">{{ $siswa->nama }}</h2>
-                            <p class="text-sm text-slate-500">{{ $siswa->email }}</p>
-                            <p class="text-xs text-slate-400 mt-1">Bergabung sejak {{ $siswa->created_at->format('d M Y') }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Stats -->
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mb-6">
-                    <div class="bg-white rounded-2xl lg:rounded-3xl p-4 lg:p-6 border border-slate-100 shadow-sm">
-                        <div class="font-display font-bold text-2xl lg:text-3xl text-navy-900">{{ $riwayat_quiz->count() }}</div>
-                        <div class="text-[10px] lg:text-xs text-slate-500 mt-1">Quiz Dikerjakan</div>
-                    </div>
-                    <div class="bg-white rounded-2xl lg:rounded-3xl p-4 lg:p-6 border border-slate-100 shadow-sm">
-                        <div class="font-display font-bold text-2xl lg:text-3xl text-navy-900">{{ $riwayat_quiz->sum('skor_diperoleh') }}</div>
-                        <div class="text-[10px] lg:text-xs text-slate-500 mt-1">Total Skor</div>
-                    </div>
-                    <div class="bg-white rounded-2xl lg:rounded-3xl p-4 lg:p-6 border border-slate-100 shadow-sm col-span-2 lg:col-span-1">
-                        <div class="font-display font-bold text-2xl lg:text-3xl text-navy-900">{{ $progress_materi->where('sudah_dibaca', true)->count() }}</div>
-                        <div class="text-[10px] lg:text-xs text-slate-500 mt-1">Materi Dibaca</div>
-                    </div>
-                </div>
-
-                <!-- Timeline Quiz -->
-                <div class="bg-white rounded-2xl lg:rounded-3xl p-5 lg:p-6 border border-slate-100 shadow-sm mb-6">
-                    <h3 class="font-display font-bold text-lg text-navy-900 mb-6">Riwayat Pengerjaan Quiz</h3>
-
-                    <div class="space-y-4">
-                        @forelse($riwayat_quiz as $attempt)
-                        <div class="flex gap-4">
-                            <div class="flex flex-col items-center">
-                                <div class="w-4 h-4 bg-sky-300 rounded-full border-4 border-white shadow flex-shrink-0"></div>
-                                @if(!$loop->last)
-                                    <div class="w-0.5 h-full bg-slate-200 my-1"></div>
-                                @endif
-                            </div>
-
-                            <div class="flex-1 bg-sky-50/50 rounded-2xl p-4 border border-sky-100 mb-4">
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
-                                    <h4 class="font-bold text-navy-900">{{ $attempt->quiz->judul ?? 'Quiz' }}</h4>
-                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full self-start">{{ $attempt->skor_diperoleh }}/{{ $attempt->quiz->poin ?? 0 }}</span>
-                                </div>
-                                <p class="text-xs text-slate-600 mb-2">Materi: {{ $attempt->quiz->materi->judul ?? '-' }}</p>
-                                <div class="flex items-center gap-2 text-[10px] text-slate-500">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    {{ $attempt->created_at->format('d M Y, H:i') }}
-                                </div>
-                            </div>
-                        </div>
-                        @empty
-                        <div class="text-center py-8">
-                            <p class="text-slate-500">Belum ada riwayat quiz</p>
-                        </div>
-                        @endforelse
-                    </div>
-                </div>
-
-                <!-- Progress Materi -->
-                <div class="bg-white rounded-2xl lg:rounded-3xl p-5 lg:p-6 border border-slate-100 shadow-sm">
-                    <h3 class="font-display font-bold text-lg text-navy-900 mb-6">Progress Materi</h3>
-
-                    <div class="space-y-3">
-                        @forelse($progress_materi as $progress)
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 gap-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-navy-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-navy-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                </div>
-                                <span class="text-sm font-bold text-navy-900">{{ $progress->materi->judul ?? 'Materi Dihapus' }}</span>
-                            </div>
-                            @if($progress->sudah_dibaca)
-                                <span class="px-3 py-1 text-xs font-bold bg-emerald-100 text-emerald-700 rounded-full self-start sm:self-auto">Sudah Dibaca</span>
-                            @else
-                                <span class="px-3 py-1 text-xs font-bold bg-slate-200 text-slate-600 rounded-full self-start sm:self-auto">Belum Dibaca</span>
-                            @endif
-                        </div>
-                        @empty
-                        <div class="text-center py-8">
-                            <p class="text-slate-500">Belum ada progress materi</p>
-                        </div>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-        </main>
+    <!-- BACK BUTTON + HEADER -->
+    <div class="flex items-center gap-4">
+        <a href="{{ route('admin.monitoring-siswa') }}" class="p-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 transition">
+            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </a>
+        <div class="flex-1">
+            <h1 class="text-2xl font-extrabold text-slate-800">Detail Monitoring Siswa</h1>
+            <p class="text-slate-500 text-sm mt-0.5">Progress dan aktivitas individual siswa</p>
+        </div>
     </div>
 
-</body>
-</html>
+    <!-- STUDENT PROFILE CARD -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-bold text-3xl shrink-0">
+                {{ substr($student->nama ?? 'S', 0, 1) }}
+            </div>
+            <div class="flex-1">
+                <h2 class="text-2xl font-extrabold text-slate-800">{{ $student->nama }}</h2>
+                <p class="text-slate-500 text-sm mt-1">{{ $student->email }}</p>
+                <div class="flex items-center gap-3 mt-2">
+                    @php $statusAktif = ($student->status ?? 'aktif') === 'aktif'; @endphp
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold {{ $statusAktif ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600' }}">
+                        <span class="w-1.5 h-1.5 rounded-full {{ $statusAktif ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
+                        {{ $statusAktif ? 'Aktif' : 'Nonaktif' }}
+                    </span>
+                    <span class="text-xs text-slate-500">Bergabung sejak {{ $student->created_at?->format('d M Y') }}</span>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <a href="{{ route('admin.kirim-reminder', ['id_user' => $student->id_user]) }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition">
+                    Kirim Pesan
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+            <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Total Poin</p>
+            <p class="text-3xl font-extrabold text-amber-600 mt-1">{{ number_format($totalPoin ?? 0) }}</p>
+            <p class="text-xs text-slate-400 mt-1">Akumulasi skor quiz</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+            <div class="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Quiz Dikerjakan</p>
+            <p class="text-3xl font-extrabold text-purple-600 mt-1">{{ $totalQuizDikerjakan }}</p>
+            <p class="text-xs text-slate-400 mt-1">Quiz diselesaikan</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Rata-rata Nilai</p>
+            <p class="text-3xl font-extrabold text-emerald-600 mt-1">{{ number_format($rataRataNilai, 1) }}</p>
+            <p class="text-xs text-slate-400 mt-1">Dari semua quiz</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+            <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Materi Dibaca</p>
+            <p class="text-3xl font-extrabold text-blue-600 mt-1">{{ $totalMateriDibaca }}</p>
+            <p class="text-xs text-slate-400 mt-1">Materi selesai</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+            <div class="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Terakhir Aktif</p>
+            <p class="text-lg font-extrabold text-slate-700 mt-1">{{ $lastActive ? $lastActive->diffForHumans() : 'Belum pernah aktif' }}</p>
+            <p class="text-xs text-slate-400 mt-1">Sesi belajar</p>
+        </div>
+    </div>
+
+    <!-- PROGRESS OVERVIEW -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-800 mb-4">Progress Keseluruhan</h3>
+
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-slate-700">Total Progress</span>
+                <span class="text-sm font-bold text-indigo-600">{{ $progressKeseluruhan }}%</span>
+            </div>
+            <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full" style="width: {{ $progressKeseluruhan }}%"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            @php
+                $warnaSkill = [
+                    'Speaking'  => ['bg-emerald-50', 'text-emerald-700', 'bg-emerald-200', 'bg-emerald-500'],
+                    'Writing'   => ['bg-purple-50', 'text-purple-700', 'bg-purple-200', 'bg-purple-500'],
+                    'Reading'   => ['bg-blue-50', 'text-blue-700', 'bg-blue-200', 'bg-blue-500'],
+                    'Listening' => ['bg-amber-50', 'text-amber-700', 'bg-amber-200', 'bg-amber-500'],
+                ];
+            @endphp
+            @forelse($progressPerSkill as $skill)
+                @php
+                    [$wBg, $wText, $wTrack, $wFill] = $warnaSkill[$skill['nama']] ?? ['bg-slate-50', 'text-slate-700', 'bg-slate-200', 'bg-slate-500'];
+                @endphp
+                <div class="p-4 {{ $wBg }} rounded-xl">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-semibold {{ $wText }}">{{ $skill['nama'] }}</span>
+                        <span class="text-sm font-bold {{ $wText }}">{{ $skill['persen'] }}%</span>
+                    </div>
+                    <div class="w-full h-2 {{ $wTrack }} rounded-full overflow-hidden">
+                        <div class="h-full {{ $wFill }} rounded-full" style="width: {{ $skill['persen'] }}%"></div>
+                    </div>
+                    <p class="text-[11px] {{ $wText }} mt-2">{{ $skill['selesai'] }} / {{ $skill['total'] }} materi selesai</p>
+                </div>
+            @empty
+                <div class="col-span-full p-4 text-center text-sm text-slate-500">Belum ada kategori materi.</div>
+            @endforelse
+        </div>
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+            <h3 class="text-lg font-bold text-slate-800">Aktivitas Terbaru</h3>
+        </div>
+
+        <div class="p-4 space-y-3">
+            @forelse($aktivitas as $item)
+                @php
+                    $isQuiz = $item['type'] === 'quiz';
+                    $warnaIcon = $isQuiz ? 'purple' : 'blue';
+                    $warnaBg   = $isQuiz ? 'bg-purple-50' : 'bg-blue-50';
+                    $warnaText = $isQuiz ? 'text-purple-600' : 'text-blue-600';
+                @endphp
+                <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition">
+                    <div class="w-9 h-9 rounded-xl {{ $warnaBg }} flex items-center justify-center shrink-0">
+                        @if($isQuiz)
+                            <svg class="w-4 h-4 {{ $warnaText }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                            </svg>
+                        @else
+                            <svg class="w-4 h-4 {{ $warnaText }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                        @endif
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-bold text-slate-800">{{ $item['judul'] }}</p>
+                        <p class="text-[11px] text-slate-500">{{ $item['detail'] }}</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">{{ $item['label'] }}</p>
+                    </div>
+                </div>
+            @empty
+                <div class="p-6 text-center">
+                    <p class="text-sm font-semibold text-slate-500">Belum ada aktivitas</p>
+                    <p class="text-xs text-slate-400 mt-1">Siswa belum mengerjakan quiz atau membaca materi.</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
+</div>
+@endsection

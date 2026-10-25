@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Masuk — Englify</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -14,6 +16,7 @@
                     fontFamily: {
                         display: ['Space Grotesk', 'sans-serif'],
                         body: ['Inter', 'sans-serif'],
+                        cute: ['"Caveat"', 'cursive'],
                     },
                     colors: {
                         navy: {
@@ -69,6 +72,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .font-cute { font-family: 'Caveat', cursive; }
 
         /* Grid Pattern */
         .grid-pattern {
@@ -145,7 +149,7 @@
     <div class="min-h-screen grid lg:grid-cols-2 relative">
 
         <!-- ============ LEFT SIDE: Branding ============ -->
-        <div class="relative bg-gradient-to-br from-navy-800 via-navy-700 to-navy-900 text-white overflow-hidden hidden lg:flex flex-col justify-between p-12">
+        <div class="relative bg-gradient-to-br from-navy-800 via-navy-700 to-navy-900 text-white overflow-hidden hidden lg:flex flex-col justify-between p-8 xl:p-12">
             <!-- Animated Blobs -->
             <div class="absolute top-10 left-10 w-72 h-72 bg-sky-300/20 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
             <div class="absolute bottom-10 right-10 w-72 h-72 bg-sky-200/20 rounded-full mix-blend-screen filter blur-3xl animate-blob" style="animation-delay: 2s"></div>
@@ -154,78 +158,91 @@
             <!-- Grid Pattern Overlay -->
             <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
 
-            <!-- Top: Logo -->
-            <div class="relative z-10 animate-fade-in">
+            <!-- Top: Logo & Badges -->
+            <div class="relative z-10 animate-fade-in space-y-3.5">
                 <a href="/" class="inline-flex items-center gap-3 group">
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-2xl group-hover:rotate-12 transition-transform duration-300">
-                        <svg class="w-7 h-7 text-navy-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-2xl group-hover:rotate-12 transition-transform duration-300 p-2">
+                        <img src="{{ asset('images/cat-welcome.png') }}" alt="Englify Cat" class="w-8 h-8 object-contain">
                     </div>
-                    <span class="font-display font-bold text-2xl">englify</span>
+                    <span class="font-display font-bold text-2xl tracking-tight">englify</span>
                 </a>
+                <div class="flex items-center gap-2">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/10 backdrop-blur border border-white/20 rounded-full">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                        <span class="text-xs font-bold uppercase tracking-wider">English Club</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-300/20 backdrop-blur border border-sky-300/30 rounded-full text-xs font-bold text-sky-200">
+                        <span>🐾 Englify Buddy</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Middle: Big Typography -->
-            <div class="relative z-10 space-y-8">
-                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur border border-white/20 rounded-full animate-fade-in">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    <span class="text-xs font-bold uppercase tracking-wider">English Club WJLRC</span>
+            <!-- Middle: Big Typography & Iconic Cat Mascot -->
+            <div class="relative z-10 space-y-6 xl:space-y-7 max-w-lg xl:max-w-xl w-full my-auto py-4">
+                <!-- Welcome Text with Iconic Cat Mascot -->
+                <div class="flex items-end justify-between gap-4">
+                    <h1 class="font-display font-bold text-5xl xl:text-6xl leading-[1.05] tracking-tight animate-slide-up">
+                        Welcome,<br>
+                        <span class="italic text-sky-300">awesome</span><br>
+                        learner.
+                    </h1>
+                    <!-- Iconic Cat Mascot Image -->
+                    <div class="relative shrink-0 animate-float hidden md:block">
+                        <div class="relative p-2">
+                            <img src="{{ asset('images/cat-welcome.png') }}" alt="Englify Cat Mascot" class="w-32 xl:w-36 h-auto object-contain drop-shadow-2xl">
+                            <span class="absolute -top-1 -right-1 text-amber-300 text-lg animate-pulse">✨</span>
+                            <span class="absolute -bottom-1 -left-1 text-sky-300 text-sm">✦</span>
+                        </div>
+                    </div>
                 </div>
 
-                <h1 class="font-display font-bold text-6xl xl:text-7xl leading-[0.95] animate-slide-up">
-                    Welcome<br>
-                    <span class="italic text-sky-300">back</span>,<br>
-                    learner.
-                </h1>
-
-                <p class="text-sky-100 text-lg max-w-md leading-relaxed animate-slide-up" style="animation-delay: 0.2s">
-                    Lanjutkan perjalanan belajarmu. Setiap langkah kecil membawa kamu lebih dekat ke masa depan yang lebih cerah.
+                <p class="text-sky-100 text-base xl:text-lg leading-relaxed animate-slide-up" style="animation-delay: 0.2s">
+                    Lanjutkan perjalanan belajarmu bersama maskot Englify. Setiap langkah kecil membawamu lebih dekat ke masa depan cerah.
                 </p>
 
-                <!-- Floating Stats -->
-                <div class="grid grid-cols-3 gap-4 max-w-md animate-slide-up" style="animation-delay: 0.4s">
-                    <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition group">
-                        <div class="font-display font-bold text-2xl group-hover:text-sky-300 transition">100+</div>
-                        <div class="text-xs text-sky-100/70">Members</div>
+                <!-- Floating Stats: Symmetrical 3-Column Grid -->
+                <div class="grid grid-cols-3 gap-3.5 xl:gap-4 w-full animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition group text-left">
+                        <div class="font-display font-bold text-2xl xl:text-3xl group-hover:text-sky-300 transition">100+</div>
+                        <div class="text-xs text-sky-100/70 mt-0.5">Members</div>
                     </div>
-                    <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition group">
-                        <div class="font-display font-bold text-2xl group-hover:text-sky-300 transition">40+</div>
-                        <div class="text-xs text-sky-100/70">Materials</div>
+                    <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition group text-left">
+                        <div class="font-display font-bold text-2xl xl:text-3xl group-hover:text-sky-300 transition">40+</div>
+                        <div class="text-xs text-sky-100/70 mt-0.5">Materials</div>
                     </div>
-                    <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition group">
-                        <div class="font-display font-bold text-2xl group-hover:text-sky-300 transition">4</div>
-                        <div class="text-xs text-sky-100/70">Divisions</div>
+                    <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition group text-left">
+                        <div class="font-display font-bold text-2xl xl:text-3xl group-hover:text-sky-300 transition">4</div>
+                        <div class="text-xs text-sky-100/70 mt-0.5">Divisions</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Bottom: Floating Cards -->
-            <div class="relative z-10 space-y-4">
+            <!-- Bottom: Floating Cards (Symmetrical 2-Column Grid) -->
+            <div class="relative z-10 grid grid-cols-2 gap-3.5 xl:gap-4 max-w-lg xl:max-w-xl w-full animate-slide-up" style="animation-delay: 0.4s">
                 <!-- Floating Card 1 -->
-                <div class="glass !bg-white/10 !border-white/20 rounded-2xl p-4 max-w-xs animate-float">
+                <div class="glass !bg-white/10 !border-white/20 rounded-2xl p-3.5 xl:p-4 animate-float">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 bg-sky-300 rounded-xl flex items-center justify-center flex-shrink-0">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <div>
-                            <div class="text-xs font-bold">Quiz Completed!</div>
-                            <div class="text-[10px] text-sky-100/70">Score: 90/100 • Speaking Bab 1</div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-white truncate">Quiz Completed!</div>
+                            <div class="text-[10px] text-sky-100/70 truncate">Score: 90/100 • Speaking Bab 1</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Floating Card 2 -->
-                <div class="glass !bg-white/10 !border-white/20 rounded-2xl p-4 max-w-xs animate-float-delayed ml-auto">
+                <div class="glass !bg-white/10 !border-white/20 rounded-2xl p-3.5 xl:p-4 animate-float-delayed">
                     <div class="flex items-center gap-3">
-                        <div class="flex -space-x-2">
+                        <div class="flex -space-x-2 flex-shrink-0">
                             <div class="w-8 h-8 rounded-full bg-sky-300 border-2 border-navy-800 flex items-center justify-center text-[10px] font-bold">NA</div>
                             <div class="w-8 h-8 rounded-full bg-white border-2 border-navy-800 flex items-center justify-center text-[10px] font-bold text-navy-800">RP</div>
                             <div class="w-8 h-8 rounded-full bg-sky-200 border-2 border-navy-800 flex items-center justify-center text-[10px] font-bold">+5</div>
                         </div>
-                        <div>
-                            <div class="text-xs font-bold">8 students online</div>
-                            <div class="text-[10px] text-sky-100/70">Learning right now</div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-white truncate">8 students online</div>
+                            <div class="text-[10px] text-sky-100/70 truncate">Learning right now</div>
                         </div>
                     </div>
                 </div>
@@ -241,26 +258,30 @@
             <div class="absolute top-20 right-20 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl animate-blob"></div>
             <div class="absolute bottom-20 left-20 w-64 h-64 bg-navy-100/30 rounded-full blur-3xl animate-blob" style="animation-delay: 2s"></div>
 
-            <!-- Mobile Logo (only visible on small screens) -->
-            <div class="absolute top-6 left-6 lg:hidden">
-                <a href="/" class="inline-flex items-center gap-2">
-                    <div class="w-10 h-10 bg-navy-800 rounded-xl flex items-center justify-center">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <span class="font-display font-bold text-xl text-navy-900">englify</span>
+            <!-- Header Navigation: Mobile Logo & Back Arrow Button -->
+            <div class="absolute top-5 left-5 right-5 sm:top-6 sm:left-6 sm:right-6 lg:left-auto flex items-center justify-between z-20">
+                <!-- Mobile Logo (only visible on small screens) -->
+                <div class="lg:hidden">
+                    <a href="/" class="inline-flex items-center gap-2 group">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white border border-navy-100 rounded-xl flex items-center justify-center p-1.5 shadow-sm transition-transform group-hover:scale-105">
+                            <img src="{{ asset('images/cat-welcome.png') }}" alt="Englify Cat" class="w-6 h-6 sm:w-7 sm:h-7 object-contain">
+                        </div>
+                        <span class="font-display font-bold text-lg sm:text-xl text-navy-900">englify</span>
+                    </a>
+                </div>
+
+                <!-- Back to Landing Page (Tanda Panah Kembali) -->
+                <a href="/" class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-white border border-navy-100 rounded-full text-xs sm:text-sm font-semibold text-navy-900 hover:border-navy-900 hover:shadow-md transition group shadow-xs">
+                    <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform text-[#018ABE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span class="hidden sm:inline">Kembali ke Beranda</span>
+                    <span class="sm:hidden">Beranda</span>
                 </a>
             </div>
 
-            <!-- Back to Home (Desktop) -->
-            <a href="/" class="absolute top-6 right-6 hidden lg:flex items-center gap-2 px-4 py-2 bg-white border border-navy-100 rounded-full text-sm font-medium text-navy-900 hover:border-navy-900 hover:shadow-lg transition group">
-                <svg class="w-4 h-4 group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Back to home
-            </a>
-
             <!-- Login Card -->
-            <div class="relative z-10 w-full max-w-md animate-slide-up">
+            <div class="relative z-10 w-full max-w-md animate-slide-up pt-10 sm:pt-6 lg:pt-0">
 
                 <!-- Header -->
                 <div class="mb-8">
@@ -270,7 +291,7 @@
                     </div>
                     <h2 class="font-display font-bold text-4xl lg:text-5xl text-navy-900 leading-tight mb-2">
                         Let's get you<br>
-                        <span class="italic text-sky-300">back in.</span>
+                        <span class="italic text-sky-300">started.</span>
                     </h2>
                     <p class="text-slate-600 text-sm">Masuk untuk melanjutkan perjalanan belajarmu di Englify.</p>
                 </div>
@@ -292,8 +313,32 @@
                 </div>
                 @endif
 
+                <!-- Success Message -->
+                @if (session('success'))
+                <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-3 animate-slide-up">
+                    <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-bold text-emerald-900">{{ session('success') }}</p>
+                    </div>
+                </div>
+                @endif
+
+                <!-- Warning Message (for first login) -->
+                @if (session('warning'))
+                <div class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3 animate-slide-up">
+                    <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-bold text-amber-900">{{ session('warning') }}</p>
+                    </div>
+                </div>
+                @endif
+
                 <!-- Form -->
-                <form method="POST" action="{{ route('login.proses') }}" class="space-y-5">
+                <form method="POST" action="{{ route('login') }}" class="space-y-5">
                     @csrf
 
                     <!-- Email Field -->
@@ -308,14 +353,17 @@
                             </div>
                             <input
                                 type="email"
-                                name="login"
-                                value="{{ old('login') }}"
+                                name="email"
+                                value="{{ old('email') }}"
                                 required
                                 autofocus
                                 placeholder="nama@englify.com"
-                                class="input-field w-full pl-12 pr-4 py-4 bg-white border-2 border-navy-100 rounded-2xl text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none focus:border-navy-800 focus:bg-white"
+                                class="input-field w-full pl-12 pr-4 py-4 bg-white border-2 border-navy-100 rounded-2xl text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none focus:border-navy-800 focus:bg-white @error('email') border-red-300 @enderror"
                             >
                         </div>
+                        @error('email')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Password Field -->
@@ -334,7 +382,7 @@
                                 id="password"
                                 required
                                 placeholder="••••••••"
-                                class="input-field w-full pl-12 pr-12 py-4 bg-white border-2 border-navy-100 rounded-2xl text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none focus:border-navy-800 focus:bg-white"
+                                class="input-field w-full pl-12 pr-12 py-4 bg-white border-2 border-navy-100 rounded-2xl text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none focus:border-navy-800 focus:bg-white @error('password') border-red-300 @enderror"
                             >
                             <button
                                 type="button"
@@ -346,15 +394,18 @@
                                 <svg id="eyeOffIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
                             </button>
                         </div>
+                        @error('password')
+                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Remember & Forgot -->
                     <div class="flex items-center justify-between">
                         <label class="flex items-center gap-2 cursor-pointer group">
-                            <input type="checkbox" class="w-4 h-4 rounded border-navy-200 text-navy-800 focus:ring-navy-800 focus:ring-offset-0 cursor-pointer">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded border-navy-200 text-navy-800 focus:ring-navy-800 focus:ring-offset-0 cursor-pointer">
                             <span class="text-xs font-medium text-slate-600 group-hover:text-navy-900 transition">Ingat saya</span>
                         </label>
-                        <a href="#" class="text-xs font-bold text-sky-300 hover:text-navy-800 transition">Lupa password?</a>
+                        <button type="button" onclick="showLupaPasswordInfo()" class="text-xs font-bold text-sky-300 hover:text-navy-800 transition">Lupa password?</button>
                     </div>
 
                     <!-- Submit Button -->
@@ -366,20 +417,18 @@
                         <svg class="w-5 h-5 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                     </button>
 
-                    <!-- Divider -->
-                    <div class="relative py-4">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-navy-100"></div>
+                    <!-- Info: Akun Disediakan oleh Admin -->
+                    <div class="mt-6 p-4 rounded-2xl bg-white border-2 border-navy-100 flex items-start gap-3 shadow-[4px_4px_0_0_#182B4B] text-left">
+                        <div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center shrink-0 text-base shadow-2xs">
+                            🐾
                         </div>
-                        <div class="relative flex justify-center text-xs">
-                            <span class="px-4 bg-gradient-to-br from-sky-50 via-white to-sky-50 text-slate-500 font-medium">Belum punya akun?</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-navy-900">Belum memiliki akun?</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                                Akun Englify dibuat dan disediakan langsung oleh <span class="font-bold text-navy-900">Administrator</span>. Silakan hubungi admin sekolah atau divisi kamu untuk mendapatkan email &amp; password.
+                            </p>
                         </div>
                     </div>
-
-                    <!-- Register Link -->
-                    <a href="/" class="block w-full py-4 bg-white border-2 border-navy-900 text-navy-900 font-bold rounded-2xl hover:bg-navy-900 hover:text-white transition-all text-center shadow-[4px_4px_0_0_#182B4B] hover:shadow-[2px_2px_0_0_#182B4B] hover:translate-x-[2px] hover:translate-y-[2px]">
-                        Daftar Sekarang →
-                    </a>
                 </form>
 
                 <!-- Footer Note -->
@@ -433,6 +482,32 @@
                 setTimeout(() => errorBox.remove(), 500);
             }, 5000);
         }
+        // Lupa Password Modal
+        function showLupaPasswordInfo() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Lupa Password?',
+                html: '<p class="text-sm text-slate-600 leading-relaxed">Akun pembelajaran Englify dikelola langsung oleh <b>Administrator</b>. Silakan hubungi admin sekolah atau pengurus divisi Anda untuk melakukan reset kata sandi akun Anda. 🐾</p>',
+                confirmButtonText: 'Mengerti',
+                confirmButtonColor: '#182B4B',
+                customClass: {
+                    popup: 'rounded-3xl p-6',
+                    confirmButton: 'rounded-xl px-6 py-2.5 font-bold text-sm'
+                }
+            });
+        }
+
+        // Tampilkan loading modal saat submit form login
+        const loginForm = document.querySelector('form[action="{{ route('login') }}"]');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function() {
+                if (typeof window.showLoading === 'function') {
+                    window.showLoading('Memverifikasi Akun...', 'Tunggu sebentar ya, sedang memproses login ke Englify! 🐾');
+                }
+            });
+        }
     </script>
+
+    @include('layouts.partials.loading-modal')
 </body>
-</html>w
+</html>

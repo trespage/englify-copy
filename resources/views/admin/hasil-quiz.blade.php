@@ -96,12 +96,12 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <p class="font-semibold text-slate-800">{{ $hasil->materi->judul ?? '-' }}</p>
-                            <p class="text-xs text-slate-500">{{ $hasil->materi->bab ?? '' }}</p>
+                            <p class="font-semibold text-slate-800">{{ $hasil->quiz->materi->judul ?? '-' }}</p>
+                            <p class="text-xs text-slate-500">{{ $hasil->quiz->judul ?? '' }}</p>
                         </td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center justify-center min-w-12 h-12 px-3 rounded-xl font-bold text-lg bg-emerald-100 text-emerald-700">
-                                {{ $hasil->skor_total }}
+                                {{ $hasil->skor_diperoleh }}
                             </span>
                         </td>
                         <td class="px-6 py-4 text-sm text-slate-600">{{ $hasil->created_at->format('d M Y, H:i') }}</td>

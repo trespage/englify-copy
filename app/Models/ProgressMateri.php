@@ -20,6 +20,11 @@ class ProgressMateri extends Model
         'completed_at',
     ];
 
+    protected $casts = [
+        'started_at'   => 'datetime',
+        'completed_at' => 'datetime',
+    ];
+
     // Relasi ke User
     public function user()
     {

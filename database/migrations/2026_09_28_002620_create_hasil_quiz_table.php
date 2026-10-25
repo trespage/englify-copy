@@ -9,16 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up() {
-    Schema::create('hasil_quiz', function (Blueprint $table) {
-        $table->id('id_hasil');
-        $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
-        $table->foreignId('id_materi')->constrained('materi', 'id_materi')->onDelete('cascade');
-        $table->integer('skor_total')->default(0);
-        $table->unique(['id_user', 'id_materi']); // Mencegah pengerjaan ganda
-        $table->timestamps();
-    });
-}
+    public function up(): void {
+        Schema::create('hasil_quiz', function (Blueprint $table) {
+            $table->id('id_hasil');
+            $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
+            $table->foreignId('id_quiz')->constrained('quiz', 'id_quiz')->onDelete('cascade');
+            $table->integer('skor_diperoleh')->default(0);
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

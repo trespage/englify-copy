@@ -18,6 +18,11 @@ class NavProbeTest extends TestCase
         $this->assertNotNull($admin);
         $this->assertNotNull($siswa);
 
+        // Siswa yang masih wajib ganti password akan dialihkan ke /change-password,
+        // jadi untuk probe navbar kita pastikan flag-nya nonaktif lalu dikembalikan.
+        $siswaMcpAsli = (bool) $siswa->must_change_password;
+        $siswa->forceFill(['must_change_password' => false])->saveQuietly();
+
         $materi = Materi::first();
         $hasil = HasilQuiz::first();
 
@@ -34,6 +39,10 @@ class NavProbeTest extends TestCase
             [$admin, 'get', route('admin.quiz'), 'admin.quiz'],
             [$admin, 'get', route('admin.hasil-quiz'), 'admin.hasil-quiz'],
             [$siswa, 'get', route('siswa.dashboard'), 'siswa.dashboard'],
+            [$siswa, 'get', route('siswa.profil'), 'siswa.profil'],
+            [$siswa, 'get', route('siswa.progres'), 'siswa.progres'],
+            [$siswa, 'get', route('siswa.reminder'), 'siswa.reminder'],
+            [$siswa, 'get', route('siswa.peta-quiz'), 'siswa.peta-quiz'],
         ];
 
         if ($materi) {
@@ -43,10 +52,11 @@ class NavProbeTest extends TestCase
         // Siapkan satu rekap hasil untuk menguji halaman detail
         $siswaUser = User::where('id_role', 3)->first();
         $detailHasil = null;
-        if ($siswaUser && $materi) {
+        $quizMateri = $materi ? \App\Models\Quiz::where('id_materi', $materi->id_materi)->first() : null;
+        if ($siswaUser && $quizMateri) {
             $detailHasil = HasilQuiz::updateOrCreate(
-                ['id_user' => $siswaUser->id_user, 'id_materi' => $materi->id_materi],
-                ['skor_total' => 80]
+                ['id_user' => $siswaUser->id_user, 'id_quiz' => $quizMateri->id_quiz],
+                ['skor_diperoleh' => 80]
             );
             $pages[] = [$admin, 'get', route('admin.hasil-quiz.detail', ['id' => $detailHasil->id_hasil]), 'admin.hasil-quiz.detail'];
         }
@@ -89,6 +99,48 @@ class NavProbeTest extends TestCase
             }
         }
 
+        if ($detailHasil) {
+            $detailHasil->delete();
+        }
+
+        if ($materi && $siswa) {
+            \App\Models\ProgressMateri::where('id_materi', $materi->id_materi)
+                ->where('id_user', $siswa->id_user)
+                ->delete();
+        }
+
         $this->assertSame([], $rusak, "Halaman rusak:\n- " . implode("\n- ", $rusak));
+
+        $siswa->forceFill(['must_change_password' => $siswaMcpAsli])->saveQuietly();
+    }
+
+    public function test_search_bar_live_di_dashboard_admin_dan_superadmin(): void
+    {
+        $superadmin = User::where('id_role', 1)->first();
+        $admin = User::where('id_role', 2)->first();
+        $siswa = User::where('id_role', 3)->first();
+        $siswa->forceFill(['must_change_password' => false])->saveQuietly();
+
+        // 1. Superadmin Dashboard Live Search
+        $resSa = $this->actingAs($superadmin)->get(route('superadmin.dashboard'));
+        $resSa->assertStatus(200);
+        $resSa->assertSee('id="pageLiveSearchInput"', false);
+        $resSa->assertSee('id="pageLiveSearchResultsDropdown"', false);
+        $resSa->assertSee('Ctrl+K');
+
+        // 2. Admin Dashboard Live Search
+        $resAdm = $this->actingAs($admin)->get(route('admin.dashboard'));
+        $resAdm->assertStatus(200);
+        $resAdm->assertSee('id="pageLiveSearchInput"', false);
+        $resAdm->assertSee('id="pageLiveSearchResultsDropdown"', false);
+        $resAdm->assertSee('Ctrl+K');
+
+        // 3. Siswa Dashboard Live Search
+        $resSis = $this->actingAs($siswa)->get(route('siswa.dashboard'));
+        $resSis->assertStatus(200);
+        $resSis->assertSee('id="pageLiveSearchInput"', false);
+        $resSis->assertSee('id="pageLiveSearchResultsDropdown"', false);
+        $resSis->assertSee('Ctrl+K');
     }
 }
+

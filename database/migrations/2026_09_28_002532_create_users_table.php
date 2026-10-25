@@ -9,19 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up() {
-    Schema::create('users', function (Blueprint $table) {
-        $table->id('id_user');
-        $table->foreignId('id_role')->constrained('roles', 'id_role')->onDelete('cascade');
-        $table->foreignId('id_kategori')->nullable()->constrained('kategori', 'id_kategori')->onDelete('set null');
-        $table->string('nama');
-        $table->string('username', 100)->unique();
-        $table->string('email')->unique();
-        $table->string('password');
-        $table->string('status', 20)->default('aktif');
-        $table->timestamps();
-    });
-}
+    public function up(): void {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id('id_user');
+            $table->foreignId('id_role')->constrained('roles', 'id_role')->onDelete('cascade');
+            $table->foreignId('id_kategori')->nullable()->constrained('kategori', 'id_kategori')->onDelete('set null');
+            $table->string('nama');
+            $table->string('username', 100)->unique();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->boolean('must_change_password')->default(true);
+            $table->timestamp('last_login_at')->nullable();
+            $table->string('status', 20)->default('aktif');
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

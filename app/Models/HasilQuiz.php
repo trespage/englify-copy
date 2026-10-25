@@ -14,8 +14,8 @@ class HasilQuiz extends Model
 
     protected $fillable = [
         'id_user',
-        'id_materi',
-        'skor_total',
+        'id_quiz',
+        'skor_diperoleh',
     ];
 
     // Relasi ke User
@@ -24,10 +24,10 @@ class HasilQuiz extends Model
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
-    // Relasi ke Materi
-    public function materi()
+    // Relasi ke Quiz
+    public function quiz()
     {
-        return $this->belongsTo(Materi::class, 'id_materi', 'id_materi');
+        return $this->belongsTo(Quiz::class, 'id_quiz', 'id_quiz');
     }
 
     // Relasi ke Jawaban User

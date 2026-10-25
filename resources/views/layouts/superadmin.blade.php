@@ -16,6 +16,9 @@
     <!-- Chart.js CDN for statistics chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -26,22 +29,22 @@
                     },
                     colors: {
                         navy: {
-                            800: '#152442',
-                            850: '#111d35',
-                            900: '#0c1628',
+                            800: '#001B48',
+                            850: '#02457A',
+                            900: '#001B48',
                         },
                         brand: {
-                            50: '#eef6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8'
+                            50: '#D6EBEE',
+                            100: '#97CADB',
+                            200: '#97CADB',
+                            500: '#018ABE',
+                            600: '#018ABE',
+                            700: '#02457A'
                         }
                     },
                     boxShadow: {
-                        card: '0 4px 20px -2px rgba(21, 36, 66, 0.05), 0 2px 6px -1px rgba(21, 36, 66, 0.03)',
-                        hover: '0 10px 25px -4px rgba(21, 36, 66, 0.08), 0 4px 10px -2px rgba(21, 36, 66, 0.04)',
+                        card: '0 4px 20px -2px rgba(0, 27, 72, 0.05), 0 2px 6px -1px rgba(0, 27, 72, 0.03)',
+                        hover: '0 10px 25px -4px rgba(0, 27, 72, 0.08), 0 4px 10px -2px rgba(0, 27, 72, 0.04)',
                         bottomNav: '0 -4px 20px rgba(0, 0, 0, 0.06)'
                     }
                 }
@@ -51,7 +54,10 @@
     <style>
         * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
         .font-cute { font-family: 'Caveat', cursive; }
-        body { background-color: #EEF4FB; }
+        html, body, .superadmin-bg { 
+            background: linear-gradient(135deg, #C2DCF9 0%, #D4E6FA 50%, #E6F1FC 100%) !important; 
+            background-attachment: fixed !important; 
+        }
 
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -59,15 +65,104 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* Sidebar link active state */
+        /* Sidebar link active state - BIRU GLOW */
         .sidebar-item-active {
-            background-color: #3B82F6;
+            background: linear-gradient(135deg, #018ABE 0%, #02457A 100%);
             color: #FFFFFF !important;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+            box-shadow: 0 4px 15px rgba(1, 138, 190, 0.5), 0 0 20px rgba(1, 138, 190, 0.3);
+            transform: scale(1.02);
         }
         .sidebar-item-active svg {
             color: #FFFFFF !important;
+            filter: drop-shadow(0 0 4px rgba(255,255,255,0.5));
         }
+
+        /* Animasi klik menu - efek ripple biru */
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(1, 138, 190, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+        .sidebar-link:active::before {
+            width: 200px;
+            height: 200px;
+        }
+        .sidebar-link:active {
+            transform: scale(0.97);
+        }
+        .sidebar-link:hover {
+            background: rgba(1, 138, 190, 0.15) !important;
+            box-shadow: inset 0 0 15px rgba(1, 138, 190, 0.2);
+        }
+        .sidebar-link:hover svg {
+            transform: scale(1.1);
+            color: #97CADB;
+        }
+        .sidebar-link svg {
+            transition: all 0.3s ease;
+        }
+
+        /* Paw Button & Animated Cat Paw */
+        @keyframes pawTap {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            18% { transform: rotate(-18deg) scale(1.24); }
+            38% { transform: rotate(14deg) scale(1.18); }
+            58% { transform: rotate(-10deg) scale(1.14); }
+            78% { transform: rotate(6deg) scale(1.08); }
+        }
+        .paw-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .paw-btn:hover {
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.22), rgba(251, 113, 133, 0.12)) !important;
+            border-color: rgba(251, 113, 133, 0.45) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 18px -2px rgba(244, 63, 94, 0.28);
+        }
+        .paw-btn:active {
+            transform: scale(0.97);
+        }
+        .paw-icon {
+            transform-origin: 50% 85%;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease, filter 0.3s ease;
+        }
+        .paw-btn:hover .paw-icon {
+            animation: pawTap 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            color: #fda4af !important;
+            filter: drop-shadow(0 0 6px rgba(251, 113, 133, 0.6));
+        }
+
+        /* Englify Cat Loading Keyframes */
+        @keyframes catBob {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-7px) rotate(3deg); }
+        }
+        @keyframes pulseRing {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.14); opacity: 0.25; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        @keyframes progressIndeterminate {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(35%); }
+            100% { transform: translateX(120%); }
+        }
+        .cat-bob { animation: catBob 1.6s ease-in-out infinite; }
+        .pulse-ring { animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
         /* Sidebar collapsed style for desktop toggle */
         #sidebar.collapsed { width: 4.75rem; }
@@ -75,34 +170,150 @@
         #sidebar.collapsed .sidebar-cat-quote,
         #sidebar.collapsed .sidebar-subitems { display: none; }
         #sidebar.collapsed .sidebar-link { justify-content: center; padding-left: 0.5rem; padding-right: 0.5rem; }
+
+        /* ==========================================================
+           ENGLIFY NOTIFICATION THEME (SweetAlert2 Custom Styling)
+           ========================================================== */
+        .swal2-container:not(.swal2-toast-container):not(.swal2-backdrop-hide) {
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .swal2-container.swal2-toast-container {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            pointer-events: none !important;
+            background: transparent !important;
+        }
+        .swal2-container.swal2-toast-container .swal2-toast {
+            pointer-events: auto !important;
+        }
+        .swal2-popup.englify-swal {
+            border-radius: 28px !important;
+            padding: 2rem 1.75rem 1.75rem 1.75rem !important;
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+            box-shadow: 0 25px 60px -15px rgba(2, 69, 122, 0.28), 0 0 0 1px rgba(151, 202, 219, 0.4) !important;
+            background: #ffffff !important;
+        }
+        .swal2-popup.englify-swal .swal2-title {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+            color: #001B48 !important;
+            font-weight: 800 !important;
+            font-size: 1.3rem !important;
+            letter-spacing: -0.01em !important;
+            margin-bottom: 0.35rem !important;
+        }
+        .swal2-popup.englify-swal .swal2-html-container {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+            color: #475569 !important;
+            font-size: 0.93rem !important;
+            line-height: 1.5 !important;
+            margin: 0.5rem 0 1.25rem 0 !important;
+        }
+        .swal2-popup.englify-swal .swal2-actions {
+            margin-top: 0.75rem !important;
+            gap: 0.75rem !important;
+        }
+        .swal2-confirm.englify-swal-confirm {
+            background: linear-gradient(135deg, #018ABE 0%, #02457A 100%) !important;
+            color: #ffffff !important;
+            border-radius: 14px !important;
+            padding: 0.75rem 2rem !important;
+            font-weight: 700 !important;
+            font-size: 0.875rem !important;
+            box-shadow: 0 4px 14px rgba(2, 69, 122, 0.35) !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .swal2-confirm.englify-swal-confirm:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 8px 20px rgba(2, 69, 122, 0.45) !important;
+        }
+        .swal2-confirm.englify-swal-confirm:active {
+            transform: translateY(0) scale(0.98) !important;
+        }
+        .swal2-confirm.englify-swal-danger {
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+            color: #ffffff !important;
+            border-radius: 14px !important;
+            padding: 0.75rem 2rem !important;
+            font-weight: 700 !important;
+            font-size: 0.875rem !important;
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35) !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .swal2-confirm.englify-swal-danger:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 8px 20px rgba(225, 29, 72, 0.45) !important;
+        }
+        .swal2-confirm.englify-swal-danger:active {
+            transform: translateY(0) scale(0.98) !important;
+        }
+        .swal2-cancel.englify-swal-cancel {
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+            border-radius: 14px !important;
+            padding: 0.75rem 1.5rem !important;
+            font-weight: 600 !important;
+            font-size: 0.875rem !important;
+            border: 1px solid #e2e8f0 !important;
+            cursor: pointer !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .swal2-cancel.englify-swal-cancel:hover {
+            background: #e2e8f0 !important;
+            color: #1e293b !important;
+        }
+        /* Toast Notification Styling */
+        .swal2-popup.swal2-toast.englify-toast {
+            border-radius: 20px !important;
+            box-shadow: 0 12px 35px -5px rgba(2, 69, 122, 0.2), 0 0 0 1px rgba(151, 202, 219, 0.35) !important;
+            padding: 0.85rem 1.25rem !important;
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(12px) !important;
+        }
+        .swal2-popup.swal2-toast.englify-toast .swal2-title {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+            font-size: 0.9rem !important;
+            color: #001B48 !important;
+            font-weight: 700 !important;
+            margin: 0 !important;
+        }
+        .swal2-popup.swal2-toast.englify-toast .swal2-html-container {
+            font-size: 0.8rem !important;
+            color: #475569 !important;
+            margin: 0.2rem 0 0 0 !important;
+        }
     </style>
 </head>
-<body class="bg-[#EEF4FB] text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="superadmin-bg bg-[#D4E6FA] text-slate-800 antialiased min-h-screen flex flex-col">
 
 <div class="flex h-screen overflow-hidden">
 
     <!-- ============================================================== -->
     <!-- DESKTOP LEFT SIDEBAR                                           -->
     <!-- ============================================================== -->
-    <aside id="sidebar" class="w-64 shrink-0 bg-[#152442] hidden lg:flex flex-col shadow-2xl transition-all duration-300 z-30 select-none relative">
+    <aside id="sidebar" class="w-64 shrink-0 bg-[#001B48] hidden lg:flex flex-col shadow-2xl transition-all duration-300 z-30 select-none relative">
 
         <!-- Sidebar Brand / Logo -->
         <div class="p-6 pb-5 flex items-center justify-between border-b border-white/10">
             <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-[#E0ECFC] flex items-center justify-center shadow-md p-1.5 transition-transform group-hover:scale-105 shrink-0">
-                    <svg viewBox="0 0 36 36" class="w-full h-full text-[#152442]" fill="currentColor">
-                        <polygon points="6,15 11,3 17,9" fill="#152442"/>
-                        <polygon points="30,15 25,3 19,9" fill="#152442"/>
+                <div class="w-10 h-10 rounded-xl bg-[#D6EBEE] flex items-center justify-center shadow-md p-1.5 transition-transform group-hover:scale-105 shrink-0">
+                    <svg viewBox="0 0 36 36" class="w-full h-full text-[#001B48]" fill="currentColor">
+                        <polygon points="6,15 11,3 17,9" fill="#001B48"/>
+                        <polygon points="30,15 25,3 19,9" fill="#001B48"/>
                         <polygon points="8,13 11,6 15,10" fill="#93C5FD"/>
                         <polygon points="28,13 25,6 21,10" fill="#93C5FD"/>
-                        <circle cx="18" cy="19" r="13" fill="#152442"/>
+                        <circle cx="18" cy="19" r="13" fill="#001B48"/>
                         <path d="M10 20 C10 13, 26 13, 26 20 C26 27, 10 27, 10 20 Z" fill="#FFFFFF"/>
-                        <ellipse cx="14" cy="19" rx="1.8" ry="2.2" fill="#152442"/>
-                        <ellipse cx="22" cy="19" rx="1.8" ry="2.2" fill="#152442"/>
+                        <ellipse cx="14" cy="19" rx="1.8" ry="2.2" fill="#001B48"/>
+                        <ellipse cx="22" cy="19" rx="1.8" ry="2.2" fill="#001B48"/>
                         <circle cx="13.4" cy="18.2" r="0.6" fill="#FFFFFF"/>
                         <circle cx="21.4" cy="18.2" r="0.6" fill="#FFFFFF"/>
-                        <polygon points="17,22 19,22 18,23" fill="#152442"/>
-                        <path d="M18 23 L18 24.5 M16.5 24.5 C17.2 25, 18 24.5, 18 24.5 C18 24.5, 18.8 25, 19.5 24.5" stroke="#152442" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+                        <polygon points="17,22 19,22 18,23" fill="#001B48"/>
+                        <path d="M18 23 L18 24.5 M16.5 24.5 C17.2 25, 18 24.5, 18 24.5 C18 24.5, 18.8 25, 19.5 24.5" stroke="#001B48" stroke-width="0.8" fill="none" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <div class="sidebar-text">
@@ -155,8 +366,8 @@
             </div>
 
             <!-- 3. Data Sistem -->
-            <a href="{{ route('superadmin.settings') }}"
-               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition {{ request()->routeIs('superadmin.settings') ? 'sidebar-item-active' : 'text-slate-300 hover:text-white hover:bg-white/10' }}">
+            <a href="{{ route('superadmin.dataSistem') }}"
+               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition {{ request()->routeIs('superadmin.dataSistem') ? 'sidebar-item-active' : 'text-slate-300 hover:text-white hover:bg-white/10' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -175,28 +386,33 @@
         </nav>
 
         <!-- Sidebar Bottom -->
-        <div class="p-5 pt-0 border-t border-white/10 space-y-3 relative overflow-hidden">
-            <div class="sidebar-cat-quote pt-3 text-left pl-1">
-                <p class="font-cute text-xl text-sky-200 leading-tight">Better</p>
-                <p class="font-cute text-xl text-sky-200 leading-tight">English</p>
-                <p class="font-cute text-xl text-sky-200 leading-tight">Brighter</p>
-                <p class="font-cute text-xl text-sky-200 leading-tight">Future <span class="text-amber-300">✦</span></p>
+        <div class="p-4 pt-1 border-t border-white/10 relative overflow-hidden mt-auto">
+            <div class="sidebar-cat-quote text-left pl-1 pt-2">
+                <p class="font-cute text-base text-sky-200/90 leading-tight">Better</p>
+                <p class="font-cute text-base text-sky-200/90 leading-tight">English</p>
+                <p class="font-cute text-base text-sky-200/90 leading-tight">Brighter</p>
+                <p class="font-cute text-base text-sky-200/90 leading-tight">Future <span class="text-amber-300">✦</span></p>
             </div>
 
-            <div class="relative flex justify-end -mt-8 pr-1">
-                <img src="{{ asset('images/cat-welcome.png') }}" alt="Englify Cat Peeking" class="w-20 h-auto object-contain transform translate-y-2 opacity-90 drop-shadow-md">
+            <div class="relative flex justify-end -mt-10 pr-1 pointer-events-none">
+                <img src="{{ asset('images/cat-welcome.png') }}" alt="Englify Cat Peeking" class="w-16 h-auto object-contain transform translate-y-1 opacity-90 drop-shadow-md">
             </div>
 
             <form method="POST" action="{{ route('logout') }}" class="pt-1">
                 @csrf
-                <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-rose-500/20 text-slate-200 hover:text-white border border-white/15 transition text-sm font-medium">
-                    <svg class="w-5 h-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="currentColor">
-                        <circle cx="7" cy="8" r="2"/>
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="17" cy="8" r="2"/>
-                        <path d="M12 11c-3 0-5 2-5 5 0 2.5 2 4 5 4s5-1.5 5-4c0-3-2-5-5-5z"/>
-                    </svg>
-                    <span class="sidebar-text">Keluar</span>
+                <button type="submit" class="paw-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-rose-500/20 text-slate-200 hover:text-white border border-white/15 transition text-sm font-medium group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-sky-400/15 group-hover:bg-rose-500/25 flex items-center justify-center transition-colors shrink-0">
+                            <!-- PAW ICON (Cakar Kucing) -->
+                            <svg class="paw-icon w-4 h-4 text-sky-300 group-hover:text-rose-300" viewBox="0 0 512 512" fill="currentColor">
+                                <path d="M226.5 92.9c14.3 42.9-.3 86.2-32.6 96.8s-70.1-15.6-84.4-58.5s.3-86.2 32.6-96.8s70.1 15.6 84.4 58.5zM100.4 198.6c18.9 32.4 14.3 70.1-10.2 84.1s-59.7-.9-78.5-33.3S-2.7 179.3 21.8 165.3s59.7 .9 78.5 33.3zM69.2 401.2C120.3 358.3 189 320 256 320s135.7 38.3 186.8 81.2c12.8 10.8 10.6 30.5-3.8 40.8-28.7 20.6-67.6 36-111 36-28.7 0-54.6-6.6-72-19.3-17.4 12.7-43.3 19.3-72 19.3-43.4 0-82.3-15.4-111-36-14.4-10.4-16.6-30.1-3.8-40.8zM440.3 165.3c24.5 14 29.1 51.7 10.2 84.1s-54.1 47.3-78.5 33.3-29.1-51.7-10.2-84.1 54.1-47.3 78.5-33.3zM318.1 189.7c-32.3-10.6-46.9-53.9-32.6-96.8s52.1-69.1 84.4-58.5 46.9 53.9 32.6 96.8-52.1 69.1-84.4 58.5z"/>
+                            </svg>
+                        </div>
+                        <span class="sidebar-text font-semibold">Logout</span>
+                    </div>
+                    <span class="sidebar-text text-[11px] font-bold text-rose-300 opacity-0 group-hover:opacity-100 transition duration-200">
+                        Bye! 🐾
+                    </span>
                 </button>
             </form>
         </div>
@@ -206,50 +422,57 @@
     <div id="mobile-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleMobileSidebar()"></div>
 
     <!-- Mobile Drawer (Offcanvas Menu) -->
-    <div id="mobile-sidebar" class="fixed inset-y-0 left-0 w-72 bg-[#152442] z-50 transform -translate-x-full transition-transform duration-300 lg:hidden flex flex-col shadow-2xl">
+    <div id="mobile-sidebar" class="fixed inset-y-0 left-0 w-72 bg-[#001B48] z-50 transform -translate-x-full transition-transform duration-300 lg:hidden flex flex-col shadow-2xl">
         <div class="p-5 border-b border-white/10 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-[#E0ECFC] flex items-center justify-center p-1.5">
-                    <svg viewBox="0 0 36 36" class="w-full h-full text-[#152442]" fill="currentColor">
-                        <polygon points="6,15 11,3 17,9" fill="#152442"/>
-                        <polygon points="30,15 25,3 19,9" fill="#152442"/>
-                        <circle cx="18" cy="19" r="13" fill="#152442"/>
-                        <circle cx="14" cy="19" r="1.8" fill="#FFFFFF"/>
-                        <circle cx="22" cy="19" r="1.8" fill="#FFFFFF"/>
+            <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-[#D6EBEE] flex items-center justify-center p-1.5 shrink-0">
+                    <svg viewBox="0 0 36 36" class="w-full h-full text-[#001B48]" fill="currentColor">
+                        <polygon points="6,15 11,3 17,9" fill="#001B48"/>
+                        <polygon points="30,15 25,3 19,9" fill="#001B48"/>
+                        <polygon points="8,13 11,6 15,10" fill="#93C5FD"/>
+                        <polygon points="28,13 25,6 21,10" fill="#93C5FD"/>
+                        <circle cx="18" cy="19" r="13" fill="#001B48"/>
+                        <path d="M10 20 C10 13, 26 13, 26 20 C26 27, 10 27, 10 20 Z" fill="#FFFFFF"/>
+                        <ellipse cx="14" cy="19" rx="1.8" ry="2.2" fill="#001B48"/>
+                        <ellipse cx="22" cy="19" rx="1.8" ry="2.2" fill="#001B48"/>
+                        <circle cx="13.4" cy="18.2" r="0.6" fill="#FFFFFF"/>
+                        <circle cx="21.4" cy="18.2" r="0.6" fill="#FFFFFF"/>
+                        <polygon points="17,22 19,22 18,23" fill="#001B48"/>
+                        <path d="M18 23 L18 24.5 M16.5 24.5 C17.2 25, 18 24.5, 18 24.5 C18 24.5, 18.8 25, 19.5 24.5" stroke="#001B48" stroke-width="0.8" fill="none" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <div>
                     <p class="text-xl font-extrabold text-white leading-none">englify</p>
                     <p class="text-[10px] text-sky-200 uppercase tracking-wider mt-1 font-semibold">Super Admin Panel</p>
                 </div>
-            </div>
+            </a>
             <button onclick="toggleMobileSidebar()" class="text-slate-400 hover:text-white p-2 rounded-lg" aria-label="Tutup">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
         <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto text-sm font-semibold text-slate-200">
-            <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.dashboard') ? 'bg-blue-600 text-white' : 'hover:bg-white/10' }}">
+            <a href="{{ route('superadmin.dashboard') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.dashboard') ? 'sidebar-item-active' : 'hover:bg-white/10' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 Dashboard
             </a>
 
             <!-- Link Mobile Sidebar diperbaiki -->
-            <a href="{{ route('superadmin.siswa') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.siswa') ? 'bg-blue-600 text-white' : 'hover:bg-white/10' }}">
+            <a href="{{ route('superadmin.siswa') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.siswa') ? 'sidebar-item-active' : 'hover:bg-white/10' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                 Kelola Akun Siswa
             </a>
 
             <!-- Link Mobile Sidebar untuk Admin Divisi (DITAMBAHKAN) -->
-            <a href="{{ route('superadmin.adminDivisi') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.adminDivisi') ? 'bg-blue-600 text-white' : 'hover:bg-white/10' }}">
+            <a href="{{ route('superadmin.adminDivisi') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.adminDivisi') ? 'sidebar-item-active' : 'hover:bg-white/10' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 Admin Divisi
             </a>
 
-            <a href="{{ route('superadmin.settings') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.settings') ? 'bg-blue-600 text-white' : 'hover:bg-white/10' }}">
+            <a href="{{ route('superadmin.dataSistem') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.dataSistem') ? 'sidebar-item-active' : 'hover:bg-white/10' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
                 Data Sistem
             </a>
-            <a href="{{ route('superadmin.profile') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.profile') ? 'bg-blue-600 text-white' : 'hover:bg-white/10' }}">
+            <a href="{{ route('superadmin.profile') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl {{ request()->routeIs('superadmin.profile') ? 'sidebar-item-active' : 'hover:bg-white/10' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                 Profil
             </a>
@@ -257,7 +480,14 @@
         <div class="p-5 border-t border-white/10">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="w-full py-2.5 rounded-xl bg-white/10 text-white text-sm font-semibold hover:bg-rose-500/20 transition">Keluar</button>
+                <button type="submit" class="paw-btn w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl bg-white/10 text-white text-sm font-semibold border border-white/15 transition group">
+                    <div class="w-7 h-7 rounded-lg bg-sky-400/15 group-hover:bg-rose-500/25 flex items-center justify-center transition-colors shrink-0">
+                        <svg class="paw-icon w-4 h-4 text-sky-300 group-hover:text-rose-300" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M226.5 92.9c14.3 42.9-.3 86.2-32.6 96.8s-70.1-15.6-84.4-58.5s.3-86.2 32.6-96.8s70.1 15.6 84.4 58.5zM100.4 198.6c18.9 32.4 14.3 70.1-10.2 84.1s-59.7-.9-78.5-33.3S-2.7 179.3 21.8 165.3s59.7 .9 78.5 33.3zM69.2 401.2C120.3 358.3 189 320 256 320s135.7 38.3 186.8 81.2c12.8 10.8 10.6 30.5-3.8 40.8-28.7 20.6-67.6 36-111 36-28.7 0-54.6-6.6-72-19.3-17.4 12.7-43.3 19.3-72 19.3-43.4 0-82.3-15.4-111-36-14.4-10.4-16.6-30.1-3.8-40.8zM440.3 165.3c24.5 14 29.1 51.7 10.2 84.1s-54.1 47.3-78.5 33.3-29.1-51.7-10.2-84.1 54.1-47.3 78.5-33.3zM318.1 189.7c-32.3-10.6-46.9-53.9-32.6-96.8s52.1-69.1 84.4-58.5 46.9 53.9 32.6 96.8-52.1 69.1-84.4 58.5z"/>
+                        </svg>
+                    </div>
+                    <span>Logout</span>
+                </button>
             </form>
         </div>
     </div>
@@ -265,37 +495,92 @@
     <!-- ============================================================== -->
     <!-- MAIN COLUMN                                                    -->
     <!-- ============================================================== -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative superadmin-bg">
 
         <!-- TOP NAVIGATION BAR -->
-        <header class="bg-[#EEF4FB] px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 sticky top-0 z-20">
+        <header class="bg-white/80 backdrop-blur-md px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 sticky top-0 z-20 border-b border-blue-200/60 shadow-xs">
             <div class="flex items-center gap-3 lg:hidden">
                 <button onclick="toggleMobileSidebar()" class="p-2 text-slate-700 hover:bg-white rounded-xl shadow-xs transition" aria-label="Toggle Menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-[#E0ECFC] flex items-center justify-center p-1 shadow-xs">
-                        <svg viewBox="0 0 36 36" class="w-full h-full text-[#152442]" fill="currentColor">
-                            <polygon points="6,15 11,3 17,9" fill="#152442"/>
-                            <polygon points="30,15 25,3 19,9" fill="#152442"/>
-                            <circle cx="18" cy="19" r="13" fill="#152442"/>
+                <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-2 group">
+                    <div class="w-9 h-9 rounded-xl bg-[#D6EBEE] flex items-center justify-center p-1.5 shadow-xs transition-transform group-hover:scale-105 shrink-0">
+                        <svg viewBox="0 0 36 36" class="w-full h-full text-[#001B48]" fill="currentColor">
+                            <polygon points="6,15 11,3 17,9" fill="#001B48"/>
+                            <polygon points="30,15 25,3 19,9" fill="#001B48"/>
+                            <polygon points="8,13 11,6 15,10" fill="#93C5FD"/>
+                            <polygon points="28,13 25,6 21,10" fill="#93C5FD"/>
+                            <circle cx="18" cy="19" r="13" fill="#001B48"/>
+                            <path d="M10 20 C10 13, 26 13, 26 20 C26 27, 10 27, 10 20 Z" fill="#FFFFFF"/>
+                            <ellipse cx="14" cy="19" rx="1.8" ry="2.2" fill="#001B48"/>
+                            <ellipse cx="22" cy="19" rx="1.8" ry="2.2" fill="#001B48"/>
+                            <circle cx="13.4" cy="18.2" r="0.6" fill="#FFFFFF"/>
+                            <circle cx="21.4" cy="18.2" r="0.6" fill="#FFFFFF"/>
+                            <polygon points="17,22 19,22 18,23" fill="#001B48"/>
+                            <path d="M18 23 L18 24.5 M16.5 24.5 C17.2 25, 18 24.5, 18 24.5 C18 24.5, 18.8 25, 19.5 24.5" stroke="#001B48" stroke-width="0.8" fill="none" stroke-linecap="round"/>
                         </svg>
                     </div>
-                    <span class="font-extrabold text-xl text-[#152442]">englify</span>
+                    <span class="font-extrabold text-xl text-[#001B48] tracking-tight leading-none">englify</span>
+                </a>
+            </div>
+
+            <!-- SEARCH BAR DESKTOP (DYNAMIC IN-PAGE LIVE SEARCH) -->
+            <div class="relative max-w-md w-full hidden md:block" id="pageLiveSearchContainer">
+                <div class="relative">
+                    <input type="text" 
+                           id="pageLiveSearchInput"
+                           placeholder="Cari siswa, admin, log, data sistem di halaman ini..."
+                           autocomplete="off"
+                           class="w-full pl-11 pr-24 py-2.5 bg-white/90 border border-slate-200/90 rounded-full text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 shadow-xs transition">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+
+                    <!-- Match Count Badge & Clear Button & Keyboard Shortcut -->
+                    <div class="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                        <span id="pageLiveSearchCountBadge" class="hidden text-[11px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 shadow-2xs">
+                            0
+                        </span>
+                        <button type="button" 
+                                id="pageLiveSearchClearBtn" 
+                                onclick="clearLivePageSearch()" 
+                                class="hidden w-5 h-5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 items-center justify-center text-xs transition"
+                                title="Hapus pencarian (Esc)">
+                            &times;
+                        </button>
+                        <span id="pageLiveSearchKbd" class="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[10px] text-slate-400 bg-slate-100 border border-slate-200 rounded font-mono pointer-events-none shadow-2xs">
+                            Ctrl+K
+                        </span>
+                    </div>
+                </div>
+
+                <!-- DROPDOWN HASIL PENCARIAN LIVE -->
+                <div id="pageLiveSearchResultsDropdown" 
+                     class="hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-200/90 overflow-hidden z-50 divide-y divide-slate-100 max-h-96 overflow-y-auto">
+                    <div class="px-4 py-2.5 bg-slate-50/90 flex items-center justify-between text-xs text-slate-500 border-b border-slate-100 sticky top-0 backdrop-blur-xs">
+                        <span class="font-bold flex items-center gap-1.5 text-slate-700">
+                            <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                            Hasil di Halaman Ini
+                        </span>
+                        <span id="pageLiveSearchDropdownCount" class="font-semibold text-slate-500 text-[11px]">0 ditemukan</span>
+                    </div>
+                    <div id="pageLiveSearchResultsList" class="p-2 space-y-1">
+                        <!-- Diisi secara dinamis oleh JavaScript -->
+                    </div>
                 </div>
             </div>
 
-            <form action="{{ route('superadmin.dashboard') }}" method="GET" class="relative max-w-md w-full hidden md:block">
-                <div class="relative">
-                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari di sistem..."
-                           class="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200/90 rounded-full text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 shadow-xs transition">
-                    <svg class="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center gap-2.5 sm:gap-4 ml-auto">
+                <!-- Mobile Search Toggle Button -->
+                <button type="button" 
+                        onclick="toggleMobileSearch()"
+                        class="md:hidden w-10 h-10 rounded-full bg-white border border-slate-200/80 flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-xs transition"
+                        title="Cari di halaman ini">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                </div>
-            </form>
+                </button>
 
-            <div class="flex items-center gap-3 sm:gap-4 ml-auto">
                 <button onclick="toggleGuideModal()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-indigo-200 text-indigo-700 hover:bg-indigo-50 text-xs font-bold shadow-xs transition" title="Lihat Tugas & Hak Akses Super Admin">
                     <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
                     <span>Panduan Hak Akses</span>
@@ -306,21 +591,15 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                         </svg>
-                        <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white"></span>
+                        <span id="notif-dot" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white hidden"></span>
                     </button>
                     <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-200 py-3 z-50">
                         <div class="px-4 pb-2 border-b border-slate-100 flex items-center justify-between">
                             <p class="text-xs font-bold text-slate-800 uppercase tracking-wider">Notifikasi Sistem</p>
-                            <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full">Baru</span>
+                            <span id="notif-baru" class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full">Memuat...</span>
                         </div>
-                        <div class="divide-y divide-slate-100 max-h-64 overflow-y-auto">
-                            <div class="p-3.5 hover:bg-slate-50 transition flex gap-3 items-start">
-                                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 text-xs font-bold">✓</div>
-                                <div class="text-xs">
-                                    <p class="font-bold text-slate-700">Akun Siswa Baru Ditambahkan</p>
-                                    <p class="text-slate-400 text-[11px]">Rani Putri berhasil terdaftar di sistem.</p>
-                                </div>
-                            </div>
+                        <div id="notif-list" class="divide-y divide-slate-100 max-h-64 overflow-y-auto">
+                            <div class="p-6 text-center text-xs text-slate-400">Memuat notifikasi...</div>
                         </div>
                     </div>
                 </div>
@@ -350,15 +629,44 @@
                         </a>
                         <form method="POST" action="{{ route('logout') }}" class="border-t border-slate-100 mt-1 pt-1">
                             @csrf
-                            <button type="submit" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50">
-                                <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                                Keluar
+                            <button type="submit" class="paw-btn w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition group">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-rose-50 group-hover:bg-rose-100 text-rose-500 flex items-center justify-center transition">
+                                        <svg class="paw-icon w-3.5 h-3.5 text-rose-500" viewBox="0 0 512 512" fill="currentColor">
+                                            <path d="M226.5 92.9c14.3 42.9-.3 86.2-32.6 96.8s-70.1-15.6-84.4-58.5s.3-86.2 32.6-96.8s70.1 15.6 84.4 58.5zM100.4 198.6c18.9 32.4 14.3 70.1-10.2 84.1s-59.7-.9-78.5-33.3S-2.7 179.3 21.8 165.3s59.7 .9 78.5 33.3zM69.2 401.2C120.3 358.3 189 320 256 320s135.7 38.3 186.8 81.2c12.8 10.8 10.6 30.5-3.8 40.8-28.7 20.6-67.6 36-111 36-28.7 0-54.6-6.6-72-19.3-17.4 12.7-43.3 19.3-72 19.3-43.4 0-82.3-15.4-111-36-14.4-10.4-16.6-30.1-3.8-40.8zM440.3 165.3c24.5 14 29.1 51.7 10.2 84.1s-54.1 47.3-78.5 33.3-29.1-51.7-10.2-84.1 54.1-47.3 78.5-33.3zM318.1 189.7c-32.3-10.6-46.9-53.9-32.6-96.8s52.1-69.1 84.4-58.5 46.9 53.9 32.6 96.8-52.1 69.1-84.4 58.5z"/>
+                                        </svg>
+                                    </div>
+                                    <span>Logout</span>
+                                </div>
+                                <span class="text-[10px] text-rose-400 group-hover:text-rose-600 font-semibold opacity-0 group-hover:opacity-100 transition">
+                                    Bye! 🐾
+                                </span>
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
         </header>
+
+        <!-- MOBILE SEARCH BAR DRAWER -->
+        <div id="mobileSearchWrapper" class="hidden md:hidden px-4 py-2.5 bg-white border-b border-slate-200/80 shadow-xs sticky top-[61px] z-19">
+            <div class="relative">
+                <input type="text" 
+                       id="pageLiveSearchInputMobile"
+                       placeholder="Cari siswa, admin, log, data sistem di halaman ini..."
+                       autocomplete="off"
+                       class="w-full pl-10 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <button type="button" 
+                        id="pageLiveSearchClearBtnMobile"
+                        onclick="clearLivePageSearch()" 
+                        class="hidden w-5 h-5 rounded-full bg-slate-200 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 items-center justify-center text-xs transition">
+                    &times;
+                </button>
+            </div>
+        </div>
 
         <!-- MAIN SCROLLABLE CONTENT -->
         <main class="flex-1 overflow-y-auto px-4 sm:px-8 pb-24 lg:pb-12">
@@ -396,7 +704,7 @@
             </a>
 
             <!-- 3. Sistem -->
-            <a href="{{ route('superadmin.settings') }}" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl {{ request()->routeIs('superadmin.settings') ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-blue-600' }}">
+            <a href="{{ route('superadmin.dataSistem') }}" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl {{ request()->routeIs('superadmin.dataSistem') ? 'text-blue-600 font-bold' : 'text-slate-500 hover:text-blue-600' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
                 <span class="text-[10px]">Sistem</span>
             </a>
@@ -459,8 +767,68 @@ function toggleSubmenu(id) {
     }
 }
 function toggleNotifDropdown() {
-    document.getElementById('notif-dropdown').classList.toggle('hidden');
+    const dd = document.getElementById('notif-dropdown');
+    const willOpen = dd.classList.contains('hidden');
+    dd.classList.toggle('hidden');
+    if (willOpen) loadNotifications();
 }
+
+// ===== Notifikasi sistem real-time (data dari database) =====
+const NOTIF_URL = @js(route('superadmin.notifications'));
+const NOTIF_STYLES = {
+    siswa:  { glyph: '\u2713', box: 'bg-emerald-100 text-emerald-600' },
+    admin:  { glyph: '\u2605', box: 'bg-blue-100 text-blue-600' },
+    quiz:   { glyph: '%',      box: 'bg-indigo-100 text-indigo-600' },
+    materi: { glyph: '\u25C6', box: 'bg-amber-100 text-amber-600' }
+};
+function notifEscape(v) {
+    const d = document.createElement('div');
+    d.textContent = v == null ? '' : String(v);
+    return d.innerHTML;
+}
+async function loadNotifications() {
+    const list = document.getElementById('notif-list');
+    if (!list) return;
+    try {
+        const res = await fetch(NOTIF_URL, { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        const items = (json.data && json.data.items) || [];
+        const unread = (json.data && json.data.unread) || 0;
+
+        if (!items.length) {
+            list.innerHTML = '<div class="p-6 text-center text-xs text-slate-400">Belum ada notifikasi.</div>';
+        } else {
+            list.innerHTML = items.map(function (it) {
+                const st = NOTIF_STYLES[it.type] || { glyph: '\u2022', box: 'bg-slate-100 text-slate-500' };
+                return '<div class="p-3.5 hover:bg-slate-50 transition flex gap-3 items-start">'
+                    + '<div class="w-8 h-8 rounded-full ' + st.box + ' flex items-center justify-center shrink-0 text-xs font-bold">' + st.glyph + '</div>'
+                    + '<div class="text-xs min-w-0">'
+                    + '<p class="font-bold text-slate-700">' + notifEscape(it.title) + '</p>'
+                    + '<p class="text-slate-400 text-[11px]">' + notifEscape(it.desc) + '</p>'
+                    + '<p class="text-[10px] text-slate-300 font-semibold mt-1">' + notifEscape(it.time_label) + '</p>'
+                    + '</div></div>';
+            }).join('');
+        }
+
+        const dot = document.getElementById('notif-dot');
+        if (dot) dot.classList.toggle('hidden', unread === 0);
+        const badge = document.getElementById('notif-baru');
+        if (badge) {
+            badge.textContent = unread > 0 ? unread + ' Baru' : 'Terbaru';
+            badge.classList.toggle('bg-blue-50', unread > 0);
+            badge.classList.toggle('text-blue-600', unread > 0);
+            badge.classList.toggle('bg-slate-100', unread === 0);
+            badge.classList.toggle('text-slate-500', unread === 0);
+        }
+    } catch (e) {
+        // biarkan list apa adanya saat jaringan gagal; coba lagi di interval berikutnya
+    }
+}
+document.addEventListener('DOMContentLoaded', function () {
+    loadNotifications();
+    setInterval(loadNotifications, 60000);
+});
 function toggleProfileDropdown() {
     document.getElementById('profile-dropdown').classList.toggle('hidden');
 }
@@ -477,8 +845,513 @@ document.addEventListener('click', function(e) {
         }
     });
 });
+
+// ==========================================
+// DYNAMIC LIVE IN-PAGE & MENU SEARCH SYSTEM (SUPERADMIN)
+// ==========================================
+const pageLiveSearchInput = document.getElementById('pageLiveSearchInput');
+const pageLiveSearchInputMobile = document.getElementById('pageLiveSearchInputMobile');
+const pageLiveSearchClearBtn = document.getElementById('pageLiveSearchClearBtn');
+const pageLiveSearchClearBtnMobile = document.getElementById('pageLiveSearchClearBtnMobile');
+const pageLiveSearchCountBadge = document.getElementById('pageLiveSearchCountBadge');
+const pageLiveSearchKbd = document.getElementById('pageLiveSearchKbd');
+const pageLiveSearchResultsDropdown = document.getElementById('pageLiveSearchResultsDropdown');
+const pageLiveSearchResultsList = document.getElementById('pageLiveSearchResultsList');
+const pageLiveSearchDropdownCount = document.getElementById('pageLiveSearchDropdownCount');
+const mobileSearchWrapper = document.getElementById('mobileSearchWrapper');
+
+function toggleMobileSearch() {
+    if (!mobileSearchWrapper) return;
+    const isHidden = mobileSearchWrapper.classList.contains('hidden');
+    mobileSearchWrapper.classList.toggle('hidden', !isHidden);
+    if (isHidden && pageLiveSearchInputMobile) {
+        setTimeout(() => pageLiveSearchInputMobile.focus(), 60);
+    }
+}
+
+function clearLivePageSearch() {
+    if (pageLiveSearchInput) pageLiveSearchInput.value = '';
+    if (pageLiveSearchInputMobile) pageLiveSearchInputMobile.value = '';
+    executePageLiveSearch('');
+    if (pageLiveSearchInput && window.innerWidth >= 768) {
+        pageLiveSearchInput.focus();
+    } else if (pageLiveSearchInputMobile && window.innerWidth < 768) {
+        pageLiveSearchInputMobile.focus();
+    }
+}
+
+// Global Keyboard Shortcut: Ctrl+K / Cmd+K focuses search, Esc clears search
+document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        const input = window.innerWidth >= 768 ? pageLiveSearchInput : pageLiveSearchInputMobile;
+        if (input) {
+            if (window.innerWidth < 768 && mobileSearchWrapper && mobileSearchWrapper.classList.contains('hidden')) {
+                toggleMobileSearch();
+            }
+            input.focus();
+            input.select();
+        }
+    } else if (e.key === 'Escape') {
+        const query = (pageLiveSearchInput?.value || pageLiveSearchInputMobile?.value || '').trim();
+        if (query) {
+            clearLivePageSearch();
+        } else if (pageLiveSearchResultsDropdown) {
+            pageLiveSearchResultsDropdown.classList.add('hidden');
+        }
+    }
+});
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+    const container = document.getElementById('pageLiveSearchContainer');
+    if (container && !container.contains(e.target) && mobileSearchWrapper && !mobileSearchWrapper.contains(e.target)) {
+        if (pageLiveSearchResultsDropdown) pageLiveSearchResultsDropdown.classList.add('hidden');
+    }
+});
+
+let searchDebounceTimer = null;
+function handleSearchInput(e) {
+    const query = e.target.value;
+    if (e.target === pageLiveSearchInput && pageLiveSearchInputMobile) {
+        pageLiveSearchInputMobile.value = query;
+    } else if (e.target === pageLiveSearchInputMobile && pageLiveSearchInput) {
+        pageLiveSearchInput.value = query;
+    }
+
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(() => {
+        executePageLiveSearch(query);
+    }, 100);
+}
+
+if (pageLiveSearchInput) pageLiveSearchInput.addEventListener('input', handleSearchInput);
+if (pageLiveSearchInputMobile) pageLiveSearchInputMobile.addEventListener('input', handleSearchInput);
+
+function highlightText(text, query) {
+    if (!query) return text;
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    return text.replace(regex, '<mark class="bg-amber-200 text-slate-900 rounded px-0.5 font-bold">$1</mark>');
+}
+
+// SuperAdmin Navigation Quick Links for fast menu discovery
+const superadminQuickNavMenus = [
+    { name: 'Dashboard', desc: 'Statistik & ringkasan akun sistem', url: '{{ route("superadmin.dashboard") }}', icon: '🏠', tags: ['dashboard', 'beranda', 'home', 'statistik', 'ringkasan'] },
+    { name: 'Kelola Akun Siswa', desc: 'Daftar, tambah, reset sandi akun siswa', url: '{{ route("superadmin.siswa") }}', icon: '👤', tags: ['siswa', 'murid', 'user', 'peserta', 'akun siswa'] },
+    { name: 'Kelola Admin Divisi', desc: 'Daftar & kelola akun admin divisi', url: '{{ route("superadmin.adminDivisi") }}', icon: '🛡️', tags: ['admin', 'divisi', 'pengajar', 'guru', 'staff', 'akun admin'] },
+    { name: 'Data Sistem & Server', desc: 'Status server, database, dan log sistem', url: '{{ route("superadmin.dataSistem") }}', icon: '⚙️', tags: ['sistem', 'server', 'database', 'log', 'aktivitas', 'status', 'kesehatan'] },
+    { name: 'Pengaturan Aplikasi', desc: 'Konfigurasi parameter sistem Englify', url: '{{ route("superadmin.settings") }}', icon: '🔧', tags: ['setting', 'pengaturan', 'konfigurasi', 'opsi', 'preferensi'] },
+    { name: 'Profil Super Admin', desc: 'Informasi akun superadmin & keamanan', url: '{{ route("superadmin.profile") }}', icon: '👑', tags: ['profil', 'profile', 'akun', 'password', 'sandi', 'keamanan'] },
+];
+
+function executePageLiveSearch(rawQuery) {
+    const query = (rawQuery || '').trim().toLowerCase();
+    const hasQuery = query.length > 0;
+
+    // Toggle UI controls
+    if (pageLiveSearchClearBtn) pageLiveSearchClearBtn.classList.toggle('hidden', !hasQuery);
+    if (pageLiveSearchClearBtn) pageLiveSearchClearBtn.classList.toggle('flex', hasQuery);
+    if (pageLiveSearchClearBtnMobile) pageLiveSearchClearBtnMobile.classList.toggle('hidden', !hasQuery);
+    if (pageLiveSearchClearBtnMobile) pageLiveSearchClearBtnMobile.classList.toggle('flex', hasQuery);
+    if (pageLiveSearchKbd) pageLiveSearchKbd.classList.toggle('hidden', hasQuery);
+
+    if (!hasQuery) {
+        if (pageLiveSearchCountBadge) pageLiveSearchCountBadge.classList.add('hidden');
+        if (pageLiveSearchResultsDropdown) pageLiveSearchResultsDropdown.classList.add('hidden');
+        restoreAllPageElements();
+        return;
+    }
+
+    const matches = [];
+
+    // Check menu quick navigation matches
+    superadminQuickNavMenus.forEach(menu => {
+        const matchesTag = menu.tags.some(t => t.includes(query) || query.includes(t));
+        const matchesName = menu.name.toLowerCase().includes(query) || menu.desc.toLowerCase().includes(query);
+        if (matchesTag || matchesName) {
+            matches.push({
+                type: '🚀 Menu Pintasan',
+                badgeClass: 'bg-sky-100 text-sky-700',
+                title: menu.name,
+                subtitle: menu.desc,
+                action: () => { window.location.href = menu.url; }
+            });
+        }
+    });
+
+    // 1. Table Rows in Main Area
+    const tableRows = document.querySelectorAll('main table tbody tr:not(.empty-state-row)');
+    if (tableRows.length > 0) {
+        tableRows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            const isMatch = text.includes(query);
+            row.style.display = isMatch ? '' : 'none';
+
+            if (isMatch) {
+                // Determine title & subtitle from row
+                const cells = row.querySelectorAll('td');
+                let rowTitle = '';
+                let rowSubtitle = '';
+
+                // Try to find primary name / title cell
+                const nameEl = row.querySelector('.font-bold, .font-semibold, td:nth-child(2)');
+                rowTitle = nameEl ? nameEl.textContent.trim() : (cells[1]?.textContent.trim() || cells[0]?.textContent.trim() || 'Baris Data');
+                
+                // Secondary text
+                const subEl = row.querySelector('.text-xs.text-slate-400, .text-xs.text-slate-500, td:nth-child(3)');
+                rowSubtitle = subEl ? subEl.textContent.trim() : (cells[2]?.textContent.trim() || 'Data di tabel');
+
+                // Determine badge type based on current page
+                let typeBadge = '📋 Baris Data';
+                let badgeClass = 'bg-blue-100 text-sky-700';
+                const path = window.location.pathname;
+                if (path.includes('siswa')) {
+                    typeBadge = '👤 Akun Siswa';
+                    badgeClass = 'bg-sky-100 text-sky-700';
+                } else if (path.includes('admin-divisi')) {
+                    typeBadge = '🛡️ Admin Divisi';
+                    badgeClass = 'bg-indigo-100 text-indigo-700';
+                } else if (path.includes('data-sistem')) {
+                    typeBadge = '⚙️ Data Sistem';
+                    badgeClass = 'bg-emerald-100 text-emerald-700';
+                } else if (path.includes('settings')) {
+                    typeBadge = '🔧 Pengaturan';
+                    badgeClass = 'bg-amber-100 text-amber-700';
+                }
+
+                matches.push({
+                    type: typeBadge,
+                    badgeClass: badgeClass,
+                    title: rowTitle,
+                    subtitle: rowSubtitle,
+                    element: row
+                });
+            }
+        });
+    }
+
+    // 2. Cards in Main Area (Cards, Sections, Grids)
+    const cards = document.querySelectorAll('main .bg-white.rounded-2xl, main .bg-white.rounded-xl, main .rounded-3xl.p-6, main .rounded-2xl.border, main .shadow-card');
+    cards.forEach(card => {
+        // Skip table containers to avoid redundant hiding of tables
+        if (card.querySelector('table')) return;
+        const text = card.textContent.toLowerCase();
+        const isMatch = text.includes(query);
+        card.style.display = isMatch ? '' : 'none';
+
+        if (isMatch) {
+            const heading = card.querySelector('h1, h2, h3, h4, .font-bold')?.textContent.trim() || 'Kartu Informasi';
+            const snippet = card.querySelector('p')?.textContent.trim() || 'Konten cocok di halaman ini';
+            matches.push({
+                type: '📄 Konten Halaman',
+                badgeClass: 'bg-slate-100 text-slate-700',
+                title: heading,
+                subtitle: snippet,
+                element: card
+            });
+        }
+    });
+
+    // Update match count badge
+    const totalCount = matches.length;
+    if (pageLiveSearchCountBadge) {
+        pageLiveSearchCountBadge.textContent = totalCount;
+        pageLiveSearchCountBadge.classList.remove('hidden');
+    }
+    if (pageLiveSearchDropdownCount) {
+        pageLiveSearchDropdownCount.textContent = `${totalCount} item ditemukan`;
+    }
+
+    renderSearchDropdownList(matches, query);
+}
+
+function renderSearchDropdownList(matches, query) {
+    if (!pageLiveSearchResultsDropdown || !pageLiveSearchResultsList) return;
+
+    if (matches.length === 0) {
+        pageLiveSearchResultsList.innerHTML = `
+            <div class="py-6 px-4 text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2 text-base">🔍</div>
+                <p class="text-xs font-bold text-slate-700">Tidak ada hasil cocok</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">Tidak ditemukan data dengan kata kunci "<b>${query}</b>" di halaman ini.</p>
+                <button type="button" onclick="clearLivePageSearch()" class="mt-2.5 px-3 py-1 bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold rounded-lg transition shadow-2xs">Reset Pencarian</button>
+            </div>
+        `;
+        pageLiveSearchResultsDropdown.classList.remove('hidden');
+        return;
+    }
+
+    const maxItems = matches.slice(0, 8);
+    let html = '';
+    maxItems.forEach((m, idx) => {
+        html += `
+            <div onclick="jumpToSearchResult(${idx})" 
+                 class="search-result-item flex items-center justify-between p-2.5 hover:bg-slate-50 rounded-xl cursor-pointer transition group border border-transparent hover:border-slate-200">
+                <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                    <span class="px-2 py-0.5 text-[10px] font-bold rounded-md ${m.badgeClass} shrink-0">
+                        ${m.type}
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-xs font-bold text-slate-800 truncate group-hover:text-sky-600 transition">
+                            ${highlightText(m.title, query)}
+                        </p>
+                        <p class="text-[10px] text-slate-400 truncate mt-0.5">
+                            ${m.subtitle}
+                        </p>
+                    </div>
+                </div>
+                <svg class="w-3.5 h-3.5 text-slate-300 group-hover:text-sky-600 group-hover:translate-x-0.5 transition shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+        `;
+    });
+
+    if (matches.length > 8) {
+        html += `
+            <div class="p-2 text-center text-[10px] text-slate-400 border-t border-slate-100">
+                +${matches.length - 8} hasil lainnya terlihat di halaman
+            </div>
+        `;
+    }
+
+    window._currentSearchMatches = matches;
+    pageLiveSearchResultsList.innerHTML = html;
+    pageLiveSearchResultsDropdown.classList.remove('hidden');
+}
+
+window.jumpToSearchResult = function(index) {
+    if (!window._currentSearchMatches || !window._currentSearchMatches[index]) return;
+    const match = window._currentSearchMatches[index];
+
+    if (pageLiveSearchResultsDropdown) {
+        pageLiveSearchResultsDropdown.classList.add('hidden');
+    }
+
+    if (typeof match.action === 'function') {
+        match.action();
+        return;
+    }
+
+    if (match.element) {
+        match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        match.element.classList.add('ring-4', 'ring-sky-500', 'ring-offset-2', 'transition-all', 'duration-500');
+        setTimeout(() => {
+            match.element.classList.remove('ring-4', 'ring-sky-500', 'ring-offset-2');
+        }, 2200);
+    }
+};
+
+function restoreAllPageElements() {
+    document.querySelectorAll('main table tbody tr').forEach(el => el.style.display = '');
+    document.querySelectorAll('main .bg-white.rounded-2xl, main .bg-white.rounded-xl, main .rounded-3xl.p-6, main .rounded-2xl.border, main .shadow-card').forEach(el => el.style.display = '');
+}
+
+// ==========================================
+// ENGLIFY NOTIFICATION SYSTEM (SweetAlert2)
+// ==========================================
+window.showToast = function(title, type = 'success', text = '') {
+    if (typeof Swal === 'undefined') return;
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBar: true,
+        customClass: {
+            popup: 'englify-toast'
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    });
+
+    return Toast.fire({
+        icon: type,
+        title: title,
+        html: text ? `<div class="text-xs text-slate-500 mt-0.5">${text}</div>` : undefined
+    });
+};
+
+window.showAlert = function(title, text = '', type = 'info') {
+    if (typeof Swal === 'undefined') {
+        console.warn(title + (text ? ': ' + text : ''));
+        return Promise.resolve();
+    }
+    return Swal.fire({
+        icon: type,
+        title: title,
+        html: text ? `<p class="text-sm text-slate-600">${text}</p>` : '',
+        confirmButtonText: 'Oke, Mengerti',
+        buttonsStyling: false,
+        customClass: {
+            popup: 'englify-swal',
+            confirmButton: 'englify-swal-confirm'
+        }
+    });
+};
+
+window.showSuccessAlert = function(title, text = '') {
+    if (typeof Swal === 'undefined') {
+        console.warn(title + (text ? ': ' + text : ''));
+        return Promise.resolve();
+    }
+    return Swal.fire({
+        icon: 'success',
+        title: title,
+        html: text ? `<p class="text-sm text-slate-600">${text}</p>` : '',
+        confirmButtonText: 'Lanjutkan',
+        buttonsStyling: false,
+        customClass: {
+            popup: 'englify-swal',
+            confirmButton: 'englify-swal-confirm'
+        }
+    });
+};
+
+window.showConfirmDialog = function(title, text, confirmButtonText = 'Ya, Lanjutkan') {
+    if (typeof Swal === 'undefined') {
+        return Promise.resolve({ isConfirmed: true });
+    }
+    return Swal.fire({
+        icon: 'warning',
+        title: title,
+        html: text ? `<p class="text-sm text-slate-600">${text}</p>` : '',
+        showCancelButton: true,
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: 'Batal',
+        buttonsStyling: false,
+        customClass: {
+            popup: 'englify-swal',
+            confirmButton: 'englify-swal-confirm',
+            cancelButton: 'englify-swal-cancel'
+        }
+    });
+};
+
+// Override window.alert to Englify SweetAlert popup
+window.alert = function(message) {
+    if (!message) return Promise.resolve();
+    if (typeof Swal === 'undefined') {
+        console.warn(message);
+        return Promise.resolve();
+    }
+    const isSuccess = /berhasil|sukses|success/i.test(message);
+    const isError = /gagal|error|salah|maksimal|tidak ditemukan/i.test(message);
+    const icon = isSuccess ? 'success' : (isError ? 'warning' : 'info');
+
+    return Swal.fire({
+        icon: icon,
+        title: isSuccess ? 'Berhasil!' : (isError ? 'Perhatian' : 'Informasi'),
+        html: `<p class="text-sm text-slate-600">${message}</p>`,
+        confirmButtonText: 'Lanjutkan',
+        buttonsStyling: false,
+        customClass: {
+            popup: 'englify-swal',
+            confirmButton: 'englify-swal-confirm'
+        }
+    });
+};
+
+// Auto display session toast if flashed
+@if(session('success'))
+document.addEventListener('DOMContentLoaded', function() {
+    window.showToast("{{ session('success') }}", 'success');
+});
+@endif
+@if(session('error'))
+document.addEventListener('DOMContentLoaded', function() {
+    window.showAlert("Perhatian", "{{ session('error') }}", 'error');
+});
+@endif
+// ==========================================
+// ENGLIFY AESTHETIC CAT LOADING SYSTEM
+// ==========================================
+window.showLoading = function(title = 'Memuat Data...', desc = 'Tunggu sebentar ya, sedang memproses permintaanmu! 🐾') {
+    const modal = document.getElementById('englify-loading-modal');
+    const card = document.getElementById('englify-loading-card');
+    const titleEl = document.getElementById('englify-loading-title');
+    const descEl = document.getElementById('englify-loading-desc');
+    if (titleEl) titleEl.textContent = title;
+    if (descEl) descEl.textContent = desc;
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            if (card) {
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }
+        }, 10);
+    }
+};
+
+window.hideLoading = function() {
+    const modal = document.getElementById('englify-loading-modal');
+    const card = document.getElementById('englify-loading-card');
+    if (card) {
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+    }
+    if (modal) {
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 150);
+    }
+};
+
+window.startPageLoader = function() {
+    const loader = document.getElementById('englify-page-loader');
+    const bar = document.getElementById('englify-page-loader-bar');
+    if (!loader || !bar) return;
+    loader.classList.remove('opacity-0');
+    bar.style.width = '30%';
+    setTimeout(() => { if (bar.style.width === '30%') bar.style.width = '70%'; }, 200);
+    setTimeout(() => { if (bar.style.width === '70%') bar.style.width = '88%'; }, 450);
+};
+
+window.finishPageLoader = function() {
+    const loader = document.getElementById('englify-page-loader');
+    const bar = document.getElementById('englify-page-loader-bar');
+    if (!loader || !bar) return;
+    bar.style.width = '100%';
+    setTimeout(() => {
+        loader.classList.add('opacity-0');
+        setTimeout(() => { bar.style.width = '0%'; }, 300);
+    }, 200);
+};
+
+// Auto attach page loader on link navigations & form submits
+document.addEventListener('DOMContentLoaded', function() {
+    window.finishPageLoader();
+
+    document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript:"])').forEach(a => {
+        a.addEventListener('click', function(e) {
+            if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey) return;
+            const href = a.getAttribute('href');
+            if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+                window.startPageLoader();
+            }
+        });
+    });
+
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (e.defaultPrevented) return;
+            window.startPageLoader();
+        });
+    });
+});
+
+window.addEventListener('pageshow', function() {
+    window.finishPageLoader();
+});
 </script>
 
+@include('layouts.partials.loading-modal')
+@include('layouts.partials.password-eye-toggle')
 @stack('scripts')
 </body>
 </html>

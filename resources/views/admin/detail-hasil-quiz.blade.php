@@ -19,12 +19,12 @@
         </div>
         <div>
             <p class="text-xs font-bold text-slate-500 uppercase">Materi</p>
-            <p class="font-bold text-slate-800 mt-1">{{ $hasil->materi->judul ?? '-' }}</p>
-            <p class="text-xs text-slate-500">{{ $hasil->materi->bab ?? '' }}</p>
+            <p class="font-bold text-slate-800 mt-1">{{ $hasil->quiz->materi->judul ?? '-' }}</p>
+            <p class="text-xs text-slate-500">{{ $hasil->quiz->judul ?? '' }}</p>
         </div>
         <div>
             <p class="text-xs font-bold text-slate-500 uppercase">Skor Total</p>
-            <p class="text-3xl font-bold text-emerald-600 mt-1">{{ $hasil->skor_total }}</p>
+            <p class="text-3xl font-bold text-emerald-600 mt-1">{{ $hasil->skor_diperoleh }}</p>
             <p class="text-xs text-slate-500">Dikerjakan {{ $hasil->created_at->format('d M Y, H:i') }}</p>
         </div>
     </div>

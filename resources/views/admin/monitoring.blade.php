@@ -1,185 +1,288 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring Siswa - Englify</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { display: ['Space Grotesk', 'sans-serif'], body: ['Inter', 'sans-serif'] },
-                    colors: {
-                        navy: { 50: '#f4f6f9', 100: '#e8ecf2', 200: '#d1d9e6', 500: '#3d5a80', 700: '#1e3a5f', 800: '#182B4B', 900: '#0f1c35' },
-                        sky: { 50: '#f0f9fc', 100: '#D6E8EE', 200: '#97CADB', 300: '#018ABE' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
-        .font-display { font-family: 'Space Grotesk', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    </style>
-</head>
-<body class="antialiased">
+@extends('layouts.admin')
 
-    <div class="flex min-h-screen">
-        <!-- Desktop Sidebar -->
-        <aside class="hidden lg:flex fixed left-0 top-0 h-full w-72 bg-navy-900 text-white flex-col z-40">
-            <div class="p-6 border-b border-white/5">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-                        <svg class="w-5 h-5 text-navy-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <div>
-                        <span class="font-display font-bold text-xl block">englify</span>
-                        <span class="text-[10px] text-sky-300 font-bold uppercase">Admin Divisi</span>
-                    </div>
-                </div>
+@section('title', 'Monitoring Per Siswa')
+
+@section('content')
+<div class="space-y-6">
+
+    <!-- HEADER -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-100 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
             </div>
-            <nav class="flex-1 p-4 space-y-1">
-                <p class="px-4 py-2 text-[10px] font-bold text-white/30 uppercase">Menu Utama</p>
-                <a href="/admin/dashboard" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Dashboard</a>
-                <a href="/admin/kategori" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Kategori</a>
-                <a href="/admin/materi" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Materi</a>
-                <a href="/admin/quiz" class="flex items-center gap-3 py-3 px-4 text-white/50 hover:text-white hover:bg-white/5 rounded-xl font-medium text-sm transition">Quiz</a>
-                <a href="/admin/monitoring" class="flex items-center gap-3 py-3 px-4 bg-white/10 text-white rounded-xl font-semibold text-sm border border-white/10 shadow-lg relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-sky-300"></div>
-                    <svg class="w-5 h-5 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    Monitoring Siswa
-                </a>
-            </nav>
-            <div class="p-4 border-t border-white/5">
-                <div class="bg-white/5 rounded-2xl p-3 flex items-center gap-3 border border-white/10">
-                    <div class="w-10 h-10 bg-gradient-to-br from-sky-300 to-sky-400 rounded-xl flex items-center justify-center text-navy-900 font-bold text-sm">
-                        {{ strtoupper(substr(auth()->user()->nama ?? 'A', 0, 1)) }}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-bold text-white truncate">{{ auth()->user()->nama ?? 'Admin' }}</p>
-                        <p class="text-[10px] text-white/40 truncate">{{ auth()->user()->email ?? 'admin@englify.com' }}</p>
-                    </div>
-                </div>
+            <div>
+                <h1 class="text-2xl font-extrabold text-slate-800">Monitoring Per Siswa</h1>
+                <p class="text-slate-500 text-sm mt-0.5">Pantau progress dan aktivitas setiap siswa di divisi Anda.</p>
             </div>
-        </aside>
-
-        <!-- Mobile Bottom Navigation -->
-        <nav class="lg:hidden fixed bottom-0 left-0 right-0 glass border-t border-slate-200 z-50 flex justify-around py-2 px-1 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
-            <a href="/admin/dashboard" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg></div>
-                <span class="text-[10px] font-medium">Home</span>
-            </a>
-            <a href="/admin/kategori" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg></div>
-                <span class="text-[10px] font-medium">Kategori</span>
-            </a>
-            <a href="/admin/materi" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg></div>
-                <span class="text-[10px] font-medium">Materi</span>
-            </a>
-            <a href="/admin/quiz" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-navy-800 transition">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg></div>
-                <span class="text-[10px] font-medium">Quiz</span>
-            </a>
-            <a href="/admin/monitoring" class="flex flex-col items-center gap-1 p-2 text-navy-800">
-                <div class="w-10 h-10 bg-navy-50 rounded-2xl flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></div>
-                <span class="text-[10px] font-bold">Monitor</span>
-            </a>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="flex-1 lg:ml-72 min-h-screen pb-24 lg:pb-8 bg-gradient-to-br from-sky-50/30 via-white to-navy-50/30">
-            <header class="sticky top-0 z-30 glass border-b border-slate-200/60 px-4 lg:px-8 py-4 flex items-center justify-between">
-                <div>
-                    <h1 class="font-display font-bold text-xl lg:text-2xl text-navy-900">Monitoring Siswa</h1>
-                    <p class="text-xs text-slate-500 hidden sm:block">Pantau progress belajar semua siswa</p>
-                </div>
-                <div class="text-right hidden sm:block">
-                    <p class="text-[10px] text-slate-500 uppercase font-bold">Hari ini</p>
-                    <p class="text-sm font-bold text-navy-900 font-display">{{ now()->format('d M Y') }}</p>
-                </div>
-            </header>
-
-            <div class="p-4 lg:p-8 max-w-7xl mx-auto">
-                <!-- Stats -->
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mb-6">
-                    <div class="bg-white rounded-2xl lg:rounded-3xl p-4 lg:p-6 border border-slate-100 shadow-sm">
-                        <div class="flex items-center justify-between mb-2 lg:mb-3">
-                            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-sky-50 rounded-xl lg:rounded-2xl flex items-center justify-center">
-                                <svg class="w-5 h-5 lg:w-6 lg:h-6 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="font-display font-bold text-2xl lg:text-3xl text-navy-900">{{ $siswa->count() }}</div>
-                        <div class="text-[10px] lg:text-xs text-slate-500 mt-1">Total Siswa</div>
-                    </div>
-
-                    <div class="bg-white rounded-2xl lg:rounded-3xl p-4 lg:p-6 border border-slate-100 shadow-sm">
-                        <div class="flex items-center justify-between mb-2 lg:mb-3">
-                            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-navy-50 rounded-xl lg:rounded-2xl flex items-center justify-center">
-                                <svg class="w-5 h-5 lg:w-6 lg:h-6 text-navy-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                            </div>
-                        </div>
-                        <div class="font-display font-bold text-2xl lg:text-3xl text-navy-900">{{ $siswa->sum('total_quiz_dikerjakan') }}</div>
-                        <div class="text-[10px] lg:text-xs text-slate-500 mt-1">Total Quiz Dikerjakan</div>
-                    </div>
-
-                    <div class="bg-white rounded-2xl lg:rounded-3xl p-4 lg:p-6 border border-slate-100 shadow-sm col-span-2 lg:col-span-1">
-                        <div class="flex items-center justify-between mb-2 lg:mb-3">
-                            <div class="w-10 h-10 lg:w-12 lg:h-12 bg-emerald-50 rounded-xl lg:rounded-2xl flex items-center justify-center">
-                                <svg class="w-5 h-5 lg:w-6 lg:h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                            </div>
-                        </div>
-                        <div class="font-display font-bold text-2xl lg:text-3xl text-navy-900">{{ $siswa->sum('total_skor') }}</div>
-                        <div class="text-[10px] lg:text-xs text-slate-500 mt-1">Total Skor Semua Siswa</div>
-                    </div>
-                </div>
-
-                <!-- Student Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    @forelse($siswa as $s)
-                    <div class="bg-white rounded-2xl lg:rounded-3xl p-5 lg:p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-sky-200 to-sky-300 rounded-2xl flex items-center justify-center text-navy-900 font-bold text-xl shadow-lg flex-shrink-0">
-                                {{ strtoupper(substr($s->nama, 0, 1)) }}
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-display font-bold text-lg text-navy-900 truncate">{{ $s->nama }}</h3>
-                                <p class="text-xs text-slate-500 truncate">{{ $s->email }}</p>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 mb-4">
-                            <div class="bg-sky-50 rounded-xl p-2 lg:p-3 text-center">
-                                <div class="font-display font-bold text-lg lg:text-xl text-navy-900">{{ $s->total_quiz_dikerjakan }}</div>
-                                <div class="text-[9px] lg:text-[10px] text-slate-500">Quiz</div>
-                            </div>
-                            <div class="bg-navy-50 rounded-xl p-2 lg:p-3 text-center">
-                                <div class="font-display font-bold text-lg lg:text-xl text-navy-900">{{ $s->total_skor }}</div>
-                                <div class="text-[9px] lg:text-[10px] text-slate-500">Skor</div>
-                            </div>
-                            <div class="bg-emerald-50 rounded-xl p-2 lg:p-3 text-center">
-                                <div class="font-display font-bold text-lg lg:text-xl text-navy-900">{{ $s->materi_dibaca }}</div>
-                                <div class="text-[9px] lg:text-[10px] text-slate-500">Materi</div>
-                            </div>
-                        </div>
-
-                        <a href="{{ route('admin.monitoring.detail', $s->id_user) }}" class="block w-full py-2.5 bg-navy-800 text-white rounded-xl text-xs font-bold hover:bg-navy-700 transition text-center shadow-lg">
-                            Lihat Detail →
-                        </a>
-                    </div>
-                    @empty
-                    <div class="col-span-full bg-white rounded-3xl p-12 border border-slate-100 text-center">
-                        <svg class="w-16 h-16 text-sky-200 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <p class="text-slate-500 font-medium">Belum ada data siswa</p>
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-        </main>
+        </div>
+        <div class="flex items-center gap-2 text-sm bg-white px-4 py-2.5 rounded-xl border border-slate-200 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="font-semibold text-slate-700">{{ $siswaAktif ?? 0 }} Siswa Aktif</span>
+        </div>
     </div>
 
-</body>
-</html>
+    <!-- STATS CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="w-11 h-11 rounded-xl bg-indigo-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Total Siswa</p>
+            <p class="text-3xl font-extrabold text-slate-800 mt-1">{{ $totalSiswa ?? 0 }}</p>
+            <p class="text-xs text-slate-400 mt-1">di divisi Anda</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Siswa Aktif</p>
+            <p class="text-3xl font-extrabold text-emerald-600 mt-1">{{ $siswaAktif ?? 0 }}</p>
+            <p class="text-xs text-slate-400 mt-1">sedang belajar</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="w-11 h-11 rounded-xl bg-rose-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Siswa Nonaktif</p>
+            <p class="text-3xl font-extrabold text-rose-600 mt-1">{{ $siswaNonaktif ?? 0 }}</p>
+            <p class="text-xs text-slate-400 mt-1">tidak aktif</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Rata-rata Progress</p>
+            <p class="text-3xl font-extrabold text-blue-600 mt-1">{{ $averageProgress }}%</p>
+            <p class="text-xs text-slate-400 mt-1">dari semua siswa</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                </svg>
+            </div>
+            <p class="text-sm font-semibold text-slate-500">Total Poin</p>
+            <p class="text-3xl font-extrabold text-amber-600 mt-1">{{ number_format($totalPoinTerkumpul ?? 0) }}</p>
+            <p class="text-xs text-slate-400 mt-1">semua siswa</p>
+        </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
+        <form method="GET" action="{{ route('admin.monitoring-siswa') }}" class="flex flex-col lg:flex-row gap-3">
+            <div class="relative flex-1">
+                <svg class="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" id="searchInput" name="q" value="{{ request('q') }}" placeholder="Cari nama atau email siswa..."
+                       class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition">
+            </div>
+            <select id="statusFilter" name="status" class="w-full lg:w-auto px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer">
+                <option value="">Semua Status</option>
+                <option value="aktif" @selected(request('status') == 'aktif')>Aktif</option>
+                <option value="nonaktif" @selected(request('status') == 'nonaktif')>Nonaktif</option>
+            </select>
+            <button type="submit" class="w-full lg:w-auto px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition">
+                Terapkan
+            </button>
+            @if(request()->hasAny(['q', 'status']))
+                <a href="{{ route('admin.monitoring-siswa') }}" class="w-full lg:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-semibold rounded-xl transition text-center">
+                    Reset
+                </a>
+            @endif
+        </form>
+    </div>
+
+    <!-- MOBILE CARD VIEW -->
+    <div class="md:hidden space-y-3">
+        @forelse($students as $student)
+        <a href="{{ route('admin.monitoring-siswa.detail', $student['id']) }}" class="block bg-white rounded-2xl p-4 shadow-sm border border-slate-200 active:bg-slate-50 transition hover:shadow-md">
+            <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-bold text-lg shrink-0">
+                        {{ substr($student['nama'], 0, 1) }}
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="font-bold text-slate-800 text-sm truncate">{{ $student['nama'] }}</p>
+                        <p class="text-xs text-slate-500 truncate">{{ $student['email'] }}</p>
+                    </div>
+                </div>
+                @if($student['status'] === 'aktif')
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 shrink-0 ml-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Aktif
+                    </span>
+                @else
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700 shrink-0 ml-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Nonaktif
+                    </span>
+                @endif
+            </div>
+
+            <div class="mb-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs font-semibold text-slate-600">Progress</span>
+                    <span class="text-xs font-bold text-indigo-600">{{ $student['progress'] }}%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all" style="width: {{ $student['progress'] }}%"></div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1 text-xs text-slate-600 font-semibold">
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                        </svg>
+                        <span>{{ $student['quiz'] }} Quiz</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/70">
+                        <svg class="w-3 h-3 text-amber-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <span>{{ number_format($student['poin'] ?? 0) }} Poin</span>
+                    </div>
+                </div>
+                <span class="text-[10px] text-slate-400">Aktif {{ $student['lastActive'] }}</span>
+            </div>
+        </a>
+        @empty
+        <div class="bg-white rounded-2xl p-8 text-center border border-slate-200">
+            <p class="text-sm font-semibold text-slate-500">Belum ada data siswa</p>
+        </div>
+        @endforelse
+    </div>
+
+    <!-- DESKTOP TABLE VIEW -->
+    <div class="hidden md:block bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-slate-50 border-b border-slate-200">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">No</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Siswa</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Progress</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Quiz</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Total Poin</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Terakhir Aktif</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse($students as $index => $student)
+                    <tr class="hover:bg-slate-50 transition group">
+                        <td class="px-6 py-4 text-sm font-semibold text-slate-600">{{ $index + 1 }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ route('admin.monitoring-siswa.detail', $student['id']) }}" class="flex items-center gap-3 hover:underline">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                                    {{ substr($student['nama'], 0, 1) }}
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-slate-800 text-sm">{{ $student['nama'] }}</p>
+                                    <p class="text-[11px] text-slate-400">{{ $student['email'] }}</p>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($student['status'] === 'aktif')
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Aktif
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-700">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Nonaktif
+                                </span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" style="width: {{ $student['progress'] }}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-indigo-600 w-10 text-right">{{ $student['progress'] }}%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-600">{{ $student['quiz'] }} quiz</td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200/80">
+                                <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span>{{ number_format($student['poin'] ?? 0) }} Poin</span>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-xs text-slate-500">{{ $student['lastActive'] }}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <a href="{{ route('admin.monitoring-siswa.detail', $student['id']) }}" class="p-2 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition" title="Lihat Detail">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="px-6 py-10 text-center">
+                            <p class="text-sm font-semibold text-slate-500">Belum ada data siswa</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-6 py-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-sm text-slate-500 text-center sm:text-left">
+                Menampilkan {{ $paginator->firstItem() ?? 0 }} - {{ $paginator->lastItem() ?? 0 }} dari {{ $paginator->total() }} data
+            </p>
+            <div class="flex items-center gap-2">
+                @if($paginator->onFirstPage())
+                    <span class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm font-semibold text-slate-300">‹</span>
+                @else
+                    <a href="{{ $paginator->previousPageUrl() }}" class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition">‹</a>
+                @endif
+
+                @foreach($paginator->getUrlRange(1, $paginator->lastPage()) as $page => $url)
+                    @if($page == $paginator->currentPage())
+                        <span class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-bold">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if($paginator->hasMorePages())
+                    <a href="{{ $paginator->nextPageUrl() }}" class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition">›</a>
+                @else
+                    <span class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm font-semibold text-slate-300">›</span>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@push('scripts')
+<script>
+// Filter dijalankan lewat form GET, tidak perlu handler JS tambahan.
+</script>
+@endpush

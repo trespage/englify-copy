@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Quiz;
 use App\Models\Materi;
 
@@ -11,8 +12,19 @@ class QuizController extends Controller
     public function index()
     {
         $quizzes = Quiz::with('materi')->orderBy('created_at', 'desc')->get();
-        $materis = Materi::where('status', 'Published')->get();
+        $materis = Materi::orderBy('id_kategori')->orderBy('urutan')->get();
         return view('admin.quiz', compact('quizzes', 'materis'));
+    }
+
+    public function apiIndex()
+    {
+        $quizzes = Quiz::with('materi')->orderBy('created_at', 'desc')->get();
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Data berhasil dimuat',
+            'data'    => $quizzes,
+        ]);
     }
 
     public function store(Request $request)
@@ -28,7 +40,15 @@ class QuizController extends Controller
             'poin' => 'required|integer|min:1',
         ]);
 
-        Quiz::create($request->all());
+        $data = $request->all();
+        if (empty($data['id_bab']) && !empty($data['id_materi'])) {
+            $materi = Materi::find($data['id_materi']);
+            if ($materi) {
+                $data['id_bab'] = $materi->id_bab;
+            }
+        }
+
+        Quiz::create($data);
         return redirect()->route('admin.quiz')->with('success', 'Soal Quiz berhasil ditambahkan!');
     }
 
@@ -46,7 +66,15 @@ class QuizController extends Controller
         ]);
 
         $quiz = Quiz::findOrFail($id);
-        $quiz->update($request->all());
+        $data = $request->all();
+        if (empty($data['id_bab']) && !empty($data['id_materi'])) {
+            $materi = Materi::find($data['id_materi']);
+            if ($materi) {
+                $data['id_bab'] = $materi->id_bab;
+            }
+        }
+
+        $quiz->update($data);
         return redirect()->route('admin.quiz')->with('success', 'Soal Quiz berhasil diupdate!');
     }
 

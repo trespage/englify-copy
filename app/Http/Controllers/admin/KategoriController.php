@@ -14,6 +14,17 @@ class KategoriController extends Controller
         return view('admin.kategori', compact('kategoris'));
     }
 
+    public function apiIndex()
+    {
+        $kategoris = Kategori::withCount('materi')->orderBy('id_kategori', 'asc')->get();
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Data berhasil dimuat',
+            'data'    => $kategoris,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
